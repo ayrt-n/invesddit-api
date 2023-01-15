@@ -1,4 +1,5 @@
 # Invesddit
-## A finance/investing related social media website
+
+Backend Rails API for Invesddit, a finance/investing related social media website (similar to Reddit).
 
 WORK IN PROGRESS
