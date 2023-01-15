@@ -5,6 +5,6 @@ FactoryBot.define do
   end
 
   trait :invalid do
-    email nil
+    email { nil }
   end
 end
