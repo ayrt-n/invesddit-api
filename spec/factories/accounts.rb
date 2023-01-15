@@ -7,4 +7,8 @@ FactoryBot.define do
   trait :invalid do
     email { nil }
   end
+
+  trait :verified do
+    status { 'verified' }
+  end
 end
