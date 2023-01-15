@@ -1,6 +1,8 @@
 module Api
   module V1
     class CommunitiesController < ApplicationController
+      before_action :authenticate, only: %i[create]
+
       def create
         @community = Community.create(community_params)
 
