@@ -16,4 +16,12 @@ RSpec.describe '/POST communities', type: :request do
     expect(response.status).to eq(201)
     expect(json['sub_dir']).to eq(community.sub_dir)
   end
+
+  context 'when authorization header is missing' do
+    it 'returns status 401 with errors' do
+      post communities_url, params: community, as: :json
+
+      expect(response.status).to eq(401)
+    end
+  end
 end
