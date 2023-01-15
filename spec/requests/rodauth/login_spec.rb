@@ -22,4 +22,15 @@ RSpec.describe '/POST login', type: :request do
       # TO DO FORMAT AND CHECK ERRORS
     end
   end
+
+  context 'when attributes missing' do
+    it 'returns status 401 with errors' do
+      account.email = ''
+
+      login_with_api(account)
+
+      expect(response.status).to eq(401)
+      # TO DO FORMAT AND CHECK ERRORS
+    end
+  end
 end
