@@ -13,4 +13,13 @@ RSpec.describe '/POST login', type: :request do
       expect(response.headers['Authorization']).to be_present
     end
   end
+
+  context 'when account is not verified' do
+    it 'returns status 403 with errors' do
+      login_with_api(unverified_account)
+
+      expect(response.status).to eq(403)
+      # TO DO FORMAT AND CHECK ERRORS
+    end
+  end
 end
