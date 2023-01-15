@@ -64,9 +64,19 @@ group :development do
   # gem "spring"
 end
 
-
+# Testing related gems
 group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
 end
+
+# Rodauth and JWT for authentication
+gem "rodauth-rails", "~> 1.7"
+gem "jwt", "~> 2.6"
+
+# Use Figaro for ENV variables
+gem 'figaro'
+
+# LetterOpener for testing mailers in development
+gem 'letter_opener', group: :development
