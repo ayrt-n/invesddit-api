@@ -4,10 +4,6 @@ FactoryBot.define do
     password { Faker::Internet.password }
   end
 
-  trait :invalid do
-    email { nil }
-  end
-
   trait :verified do
     status { 'verified' }
   end
