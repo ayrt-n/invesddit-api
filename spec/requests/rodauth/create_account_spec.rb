@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe '/POST create-account', type: :request do
   let(:account) { build(:account) }
+  let(:invalid_account) { build(:account, :invalid) }
   let(:create_account_url) { '/create-account' }
 
   it 'creates an account' do
@@ -14,5 +15,20 @@ RSpec.describe '/POST create-account', type: :request do
 
     expect(response.status).to eq(200)
     expect(Account.last.email).to eq(account.email)
+  end
+
+  context 'when there are invalid attributes' do
+    it 'returns status 422 with errors' do
+      invalid_account_params = {
+        login: invalid_account.email,
+        password: invalid_account.password,
+        'password-confirm': invalid_account.password
+      }
+
+      post create_account_url, params: invalid_account_params, as: :json
+
+      expect(response.status).to eq(422)
+      # TO DO FORMAT AND CHECK ERRORS
+    end
   end
 end
