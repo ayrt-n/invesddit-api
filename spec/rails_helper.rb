@@ -63,4 +63,7 @@ RSpec.configure do |config|
 
   # Add FactoryBot syntax helpers
   config.include FactoryBot::Syntax::Methods
+
+  # Add API helpers
+  config.include ApiHelpers, type: :request
 end
