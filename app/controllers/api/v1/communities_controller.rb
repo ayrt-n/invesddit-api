@@ -6,7 +6,7 @@ module Api
       def create
         @community = Community.create(community_params)
 
-        render json: @community, status: :created
+        render_resource(@community)
       end
 
       private
