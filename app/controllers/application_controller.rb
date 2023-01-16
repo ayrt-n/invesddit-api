@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   def render_resource(resource)
     if resource.errors.empty?
-      render json: resource, status: :created
+      render json: resource
     else
       validation_error(resource)
     end
