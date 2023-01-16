@@ -3,6 +3,12 @@ module Api
     class CommunitiesController < ApplicationController
       before_action :authenticate, only: %i[create]
 
+      def index
+        @communities = Community.all
+
+        render json: { communities: @communities }
+      end
+
       def create
         @community = Community.create(community_params)
 
