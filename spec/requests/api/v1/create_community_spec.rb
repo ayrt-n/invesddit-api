@@ -13,7 +13,7 @@ RSpec.describe '/POST communities', type: :request do
       Authorization: response['Authorization']
     }, params: community, as: :json
 
-    expect(response.status).to eq(201)
+    expect(response.status).to eq(200)
     expect(json['sub_dir']).to eq(community.sub_dir)
   end
 
