@@ -9,6 +9,12 @@ module Api
         render json: { communities: @communities }
       end
 
+      def show
+        @community = Community.where(sub_dir: params['id']).first
+
+        render json: { community: @community }
+      end
+
       def create
         @community = Community.create(community_params)
 
