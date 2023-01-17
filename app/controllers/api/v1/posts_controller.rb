@@ -3,6 +3,12 @@ module Api
     class PostsController < ApplicationController
       before_action :authenticate, only: %i[create]
 
+      def index
+        @posts = Post.all
+
+        render json: { posts: @posts }
+      end
+
       def create
         @community = Community.friendly.find(params[:community_id])
         @post = @community.posts.create(post_params.merge({ account_id: current_account.id }))
