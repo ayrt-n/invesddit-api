@@ -83,3 +83,6 @@ gem 'letter_opener', group: :development
 
 # Friendly id gem to for user friendly urls/search
 gem 'friendly_id', '~> 5.4.0'
+
+# Add shoulda matchers gem to test validations
+gem 'shoulda-matchers', group: :test

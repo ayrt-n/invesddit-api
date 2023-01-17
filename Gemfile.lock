@@ -212,6 +212,8 @@ GEM
       activerecord (>= 4.2, < 8)
       after_commit_everywhere (~> 1.1)
       sequel (~> 5.38)
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -259,6 +261,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   rodauth-rails (~> 1.7)
   rspec-rails
+  shoulda-matchers
   sprockets-rails
   stimulus-rails
   turbo-rails
