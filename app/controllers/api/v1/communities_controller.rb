@@ -1,7 +1,7 @@
 module Api
   module V1
     class CommunitiesController < ApplicationController
-      before_action :authenticate, only: %i[create]
+      before_action :authenticate, only: %i[create update]
 
       def index
         @communities = Community.all
@@ -17,6 +17,13 @@ module Api
 
       def create
         @community = Community.create(community_params)
+
+        render_resource(@community)
+      end
+
+      def update
+        @community = Community.where(sub_dir: params['id']).first
+        @community.update(community_params)
 
         render_resource(@community)
       end
