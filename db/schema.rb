@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_15_193359) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_122444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -49,7 +49,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_15_193359) do
     t.index ["sub_dir"], name: "index_communities_on_sub_dir", unique: true
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.bigint "account_id", null: false
+    t.bigint "community_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_posts_on_account_id"
+    t.index ["community_id"], name: "index_posts_on_community_id"
+  end
+
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
+  add_foreign_key "posts", "accounts"
+  add_foreign_key "posts", "communities"
 end
