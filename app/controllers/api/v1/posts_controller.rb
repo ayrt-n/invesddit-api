@@ -1,6 +1,8 @@
 module Api
   module V1
     class PostsController < ApplicationController
+      before_action :authenticate, only: %i[create]
+
       def create
         @community = Community.friendly.find(params[:community_id])
         @post = @community.posts.create(post_params.merge({ account_id: current_account.id }))
