@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :communities, only: %i[index create show update] do
         resources :posts, only: %i[create]
       end
+
+      resources :posts, only: %i[index]
     end
   end
 end
