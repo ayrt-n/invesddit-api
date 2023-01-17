@@ -1,3 +1,6 @@
 class Community < ApplicationRecord
-  validates :sub_dir, presence: true
+  extend FriendlyId
+  friendly_id :sub_dir
+
+  validates :sub_dir, presence: true, uniqueness: true
 end
