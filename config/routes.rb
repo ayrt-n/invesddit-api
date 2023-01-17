@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :communities, only: %i[index create show]
+      resources :communities, only: %i[index create show update]
     end
   end
 end
