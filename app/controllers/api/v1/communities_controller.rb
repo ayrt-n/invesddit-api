@@ -10,7 +10,7 @@ module Api
       end
 
       def show
-        @community = Community.where(sub_dir: params['id']).first
+        @community = Community.friendly.find(params['id'])
 
         render json: { community: @community }
       end
@@ -22,7 +22,7 @@ module Api
       end
 
       def update
-        @community = Community.where(sub_dir: params['id']).first
+        @community = Community.friendly.find(params['id'])
         @community.update(community_params)
 
         render_resource(@community)
