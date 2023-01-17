@@ -15,14 +15,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_15_193359) do
   enable_extension "citext"
   enable_extension "plpgsql"
 
-  create_table "account_jwt_refresh_keys", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "key", null: false
-    t.datetime "deadline", null: false
-    t.index ["account_id"], name: "account_jwt_rk_account_id_idx"
-    t.index ["account_id"], name: "index_account_jwt_refresh_keys_on_account_id"
-  end
-
   create_table "account_login_change_keys", force: :cascade do |t|
     t.string "key", null: false
     t.string "login", null: false
@@ -54,9 +46,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_15_193359) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["sub_dir"], name: "index_communities_on_sub_dir", unique: true
   end
 
-  add_foreign_key "account_jwt_refresh_keys", "accounts"
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
