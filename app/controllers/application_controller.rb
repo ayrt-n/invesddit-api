@@ -16,6 +16,16 @@ class ApplicationController < ActionController::Base
     }, status: :unprocessable_entity
   end
 
+  def access_denied
+    render json: {
+      error: {
+        status: '401',
+        title: 'Access denied',
+        details: 'You do not have the correct permissions.'
+      }
+    }, status: :unauthorized
+  end
+
   private
 
   def current_account
