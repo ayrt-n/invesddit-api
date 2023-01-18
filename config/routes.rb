@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         resources :posts, only: %i[create]
       end
 
-      resources :posts, only: %i[index]
+      resources :posts, only: %i[index update]
     end
   end
 end
