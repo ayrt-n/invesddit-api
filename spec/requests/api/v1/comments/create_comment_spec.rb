@@ -28,4 +28,20 @@ RSpec.describe '/POST /:commentable/:commentable_id/comments', type: :request do
       expect(Comment.all.count).to eq(0)
     end
   end
+
+  context 'when invalid attributes' do
+    it 'returns status 422 with errors' do
+      parent_comment = create(:comment, :for_post)
+      comment = build(:comment, body: nil)
+      account = create(:account, :verified)
+      comments_url = "/api/v1/comments/#{parent_comment.id}/comments"
+
+      login_with_api(account)
+      post comments_url, headers: {
+        Authorization: response['Authorization']
+      }, params: comment, as: :json
+
+      expect(response.status).to eq(422)
+    end
+  end
 end
