@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
@@ -14,6 +16,16 @@ class ApplicationController < ActionController::Base
         details: resource.errors.full_messages
       }
     }, status: :unprocessable_entity
+  end
+
+  def not_found
+    render json: {
+      error: {
+        status: '404',
+        title: 'Not Found',
+        details: 'The requested page could not be found.'
+      }
+    }, status: :not_found
   end
 
   def access_denied
