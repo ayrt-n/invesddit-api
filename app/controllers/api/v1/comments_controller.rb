@@ -1,7 +1,7 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      before_action :authenticate, only: %i[create]
+      before_action :authenticate, only: %i[create update]
       before_action :set_commentable, only: %i[create]
 
       def create
@@ -10,6 +10,17 @@ module Api
         )
 
         render_resource(@comment)
+      end
+
+      def update
+        @comment = Comment.find(params[:id])
+        return access_denied unless @comment.account == current_account
+
+        if @comment.update(comment_params)
+          render json: @comment
+        else
+          validation_error(@comment)
+        end
       end
 
       private
