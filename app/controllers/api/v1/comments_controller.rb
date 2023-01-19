@@ -1,6 +1,7 @@
 module Api
   module V1
     class CommentsController < ApplicationController
+      before_action :authenticate, only: %i[create]
       before_action :set_commentable, only: %i[create]
 
       def create
