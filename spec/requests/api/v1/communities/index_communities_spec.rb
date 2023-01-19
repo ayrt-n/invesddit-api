@@ -8,6 +8,6 @@ RSpec.describe '/GET communities', type: :request do
     get communities_url, as: :json
 
     expect(response.status).to eq(200)
-    expect(json['communities'].length).to be(3)
+    expect(json['data'].length).to be(3)
   end
 end

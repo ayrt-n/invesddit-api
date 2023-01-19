@@ -8,6 +8,6 @@ RSpec.describe '/GET posts', type: :request do
     get posts_url, as: :json
 
     expect(response.status).to eq(200)
-    expect(json['posts'].length).to eq(3)
+    expect(json['data'].length).to eq(3)
   end
 end

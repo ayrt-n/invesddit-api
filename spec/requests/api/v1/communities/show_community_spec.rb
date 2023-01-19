@@ -8,6 +8,6 @@ RSpec.describe '/GET communities/:sub_dir', type: :request do
     get community_url, as: :json
 
     expect(response.status).to eq(200)
-    expect(json['community']['sub_dir']).to eq(community.sub_dir)
+    expect(json['data']['sub_dir']).to eq(community.sub_dir)
   end
 end

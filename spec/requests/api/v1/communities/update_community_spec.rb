@@ -14,7 +14,7 @@ RSpec.describe '/PATCH communities', type: :request do
     }, params: { title: community.sub_dir }, as: :json
 
     expect(response.status).to eq(200)
-    expect(json['title']).to eq(community.sub_dir)
+    expect(json['data']['title']).to eq(community.sub_dir)
   end
 
   context 'when authorization header is missing' do

@@ -14,7 +14,7 @@ RSpec.describe '/POST communities', type: :request do
     }, params: community, as: :json
 
     expect(response.status).to eq(200)
-    expect(json['sub_dir']).to eq(community.sub_dir)
+    expect(json['data']['sub_dir']).to eq(community.sub_dir)
   end
 
   context 'when attributes invalid' do
