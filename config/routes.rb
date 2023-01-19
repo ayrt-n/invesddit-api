@@ -5,7 +5,13 @@ Rails.application.routes.draw do
         resources :posts, only: %i[create]
       end
 
-      resources :posts, only: %i[index update destroy]
+      resources :posts, only: %i[index update destroy] do
+        resources :comments, only: %i[create]
+      end
+
+      resources :comments, only: %i[update show delete] do
+        resource :comments, only: %i[create]
+      end
     end
   end
 end
