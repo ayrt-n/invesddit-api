@@ -1,19 +1,18 @@
 class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
+  # Format of successful response { "data" : ... }
   def render_resource(resource)
-    if resource.errors.empty?
-      render json: resource
-    else
-      validation_error(resource)
-    end
+    render json: { data: resource }
   end
 
-  def validation_error(resource)
+  # Error responses
+  def unprocessable_entity(resource)
     render json: {
       error: {
-        title: 'Unprocessable Entity',
-        details: resource.errors.full_messages
+        code: '422',
+        message: 'Unprocessable Entity',
+        errors: resource.errors.full_messages
       }
     }, status: :unprocessable_entity
   end
@@ -21,9 +20,9 @@ class ApplicationController < ActionController::Base
   def not_found
     render json: {
       error: {
-        status: '404',
-        title: 'Not Found',
-        details: 'The requested page could not be found.'
+        code: '404',
+        message: 'Not Found',
+        errors: ['The requested resource could not be found.']
       }
     }, status: :not_found
   end
@@ -31,9 +30,9 @@ class ApplicationController < ActionController::Base
   def access_denied
     render json: {
       error: {
-        status: '401',
-        title: 'Access denied',
-        details: 'You do not have the correct permissions.'
+        code: '401',
+        message: 'Access denied',
+        details: ['You do not have the correct permissions.']
       }
     }, status: :unauthorized
   end

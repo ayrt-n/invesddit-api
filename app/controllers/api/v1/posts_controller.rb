@@ -6,14 +6,18 @@ module Api
       def index
         @posts = Post.all
 
-        render json: { posts: @posts }
+        render_resource(@posts)
       end
 
       def create
         @community = Community.friendly.find(params[:community_id])
-        @post = @community.posts.create(post_params.merge({ account_id: current_account.id }))
+        @post = @community.posts.build(post_params.merge({ account_id: current_account.id }))
 
-        render_resource(@post)
+        if @post.save
+          render_resource(@post)
+        else
+          unprocessable_entity(@post)
+        end
       end
 
       def update
@@ -21,9 +25,9 @@ module Api
         return access_denied unless @post.account == current_account
 
         if @post.update(post_params)
-          render json: @post
+          render_resource(@post)
         else
-          render validation_error(@post)
+          unprocessable_entity(@post)
         end
       end
 
@@ -32,8 +36,7 @@ module Api
         return access_denied unless @post.account == current_account
 
         @post.destroy
-
-        render json: @post
+        render_resource(@post)
       end
 
       private

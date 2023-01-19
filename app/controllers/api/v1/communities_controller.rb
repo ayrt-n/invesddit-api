@@ -6,26 +6,33 @@ module Api
       def index
         @communities = Community.all
 
-        render json: { communities: @communities }
+        render_resource(@communities)
       end
 
       def show
         @community = Community.friendly.find(params['id'])
 
-        render json: { community: @community }
+        render_resource(@community)
       end
 
       def create
-        @community = Community.create(community_params)
+        @community = Community.new(community_params)
 
-        render_resource(@community)
+        if @community.save
+          render_resource(@community)
+        else
+          unprocessable_entity(@community)
+        end
       end
 
       def update
         @community = Community.friendly.find(params['id'])
-        @community.update(community_params)
 
-        render_resource(@community)
+        if @community.update(community_params)
+          render_resource(@community)
+        else
+          unprocessable_entity(@community)
+        end
       end
 
       private

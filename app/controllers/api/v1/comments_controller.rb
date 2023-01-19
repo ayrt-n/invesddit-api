@@ -5,11 +5,15 @@ module Api
       before_action :set_commentable, only: %i[create]
 
       def create
-        @comment = @commentable.comments.create(
+        @comment = @commentable.comments.build(
           comment_params.merge({ account_id: current_account.id })
         )
 
-        render_resource(@comment)
+        if @comment.save
+          render_resource(@comment)
+        else
+          unprocessable_entity(@comment)
+        end
       end
 
       def update
@@ -17,9 +21,9 @@ module Api
         return access_denied unless @comment.account == current_account
 
         if @comment.update(comment_params)
-          render json: @comment
+          render_resource(@comment)
         else
-          validation_error(@comment)
+          unprocessable_entity(@comment)
         end
       end
 
