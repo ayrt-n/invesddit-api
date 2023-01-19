@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         resources :comments, only: %i[create]
       end
 
-      resources :comments, only: %i[update show delete] do
+      resources :comments, only: %i[update delete] do
         resource :comments, only: %i[create]
       end
     end
