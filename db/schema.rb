@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_18_130232) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_20_125541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -71,9 +71,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_130232) do
     t.index ["community_id"], name: "index_posts_on_community_id"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "value"
+    t.bigint "account_id", null: false
+    t.string "votable_type"
+    t.bigint "votable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_votes_on_account_id"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
+  end
+
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
   add_foreign_key "posts", "accounts"
   add_foreign_key "posts", "communities"
+  add_foreign_key "votes", "accounts"
 end
