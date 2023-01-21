@@ -13,6 +13,17 @@ module Api
           unprocessable_entity(@membership)
         end
       end
+
+      def destroy
+        @membership = Membership.find(params[:id])
+        return access_denied unless @membership.account == current_account
+
+        if @membership.destroy
+          head :no_content
+        else
+          unprocessable_entity(@membership)
+        end
+      end
     end
   end
 end
