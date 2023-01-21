@@ -3,6 +3,7 @@ class Community < ApplicationRecord
   friendly_id :sub_dir
 
   has_many :posts
+  has_many :memberships
 
   validates :sub_dir, presence: true,
                       uniqueness: true,
