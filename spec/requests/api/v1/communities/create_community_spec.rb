@@ -17,6 +17,18 @@ RSpec.describe '/POST communities', type: :request do
     expect(json['data']['sub_dir']).to eq(community.sub_dir)
   end
 
+  it 'sets the account used to create as an admin' do
+    login_with_api(verified_account)
+
+    post communities_url, headers: {
+      Authorization: response['Authorization']
+    }, params: community, as: :json
+
+    record = Community.last
+
+    expect(record.admin_ids).to include(verified_account.id)
+  end
+
   context 'when attributes invalid' do
     it 'returns status 422 with errors' do
       login_with_api(verified_account)
