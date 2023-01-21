@@ -11,4 +11,8 @@ class Community < ApplicationRecord
 
   validates :title, length: { maximum: 20 }
   validates :description, length: { maximum: 140 }
+
+  def admin_ids
+    memberships.where(role: 'admin').pluck(:account_id)
+  end
 end
