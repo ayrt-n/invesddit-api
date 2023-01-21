@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       end
 
       resources :votes, only: %i[destroy]
+      resources :memberships, only: %i[destroy]
     end
   end
 end
