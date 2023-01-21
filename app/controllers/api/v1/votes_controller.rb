@@ -19,6 +19,17 @@ module Api
         end
       end
 
+      def destroy
+        @vote = Vote.find(params[:id])
+        return access_denied unless @vote.account == current_account
+
+        if @vote.destroy
+          head :no_content
+        else
+          unprocessable_entity(@vote)
+        end
+      end
+
       private
 
       def set_votable
