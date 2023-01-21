@@ -30,13 +30,7 @@ module Api
       private
 
       def set_commentable
-        if params[:post_id]
-          @commentable = Post.find(params[:post_id])
-        elsif params[:comment_id]
-          @commentable = Comment.find(params[:comment_id])
-        else
-          # TO DO RENDER ERROR?
-        end
+        @commentable = params[:post_id] ? Post.find(params[:post_id]) : Comment.find(params[:comment_id])
       end
 
       def comment_params
