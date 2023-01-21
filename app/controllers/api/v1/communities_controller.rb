@@ -5,19 +5,20 @@ module Api
 
       def index
         @communities = Community.all
-
         render_resource(@communities)
       end
 
       def show
         @community = Community.friendly.find(params['id'])
-
         render_resource(@community)
       end
 
       def create
+        # Create community and set the creator (current account) as the admin
         @community = Community.new(community_params)
+        @community.memberships.build(account_id: current_account.id, role: 'admin')
 
+        # If save successul render community, else render errors
         if @community.save
           render_resource(@community)
         else
