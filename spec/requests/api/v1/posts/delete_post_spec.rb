@@ -9,7 +9,7 @@ RSpec.describe '/DELETE posts/:id', type: :request do
     login_with_api(account)
     delete post_url, headers: { Authorization: response['Authorization'] }, as: :json
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(Post.exists?(post.id)).to eq(false)
   end
 

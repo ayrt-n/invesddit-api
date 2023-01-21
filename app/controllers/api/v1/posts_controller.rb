@@ -35,8 +35,11 @@ module Api
         @post = Post.find(params[:id])
         return access_denied unless @post.account == current_account
 
-        @post.destroy
-        render_resource(@post)
+        if @post.destroy
+          head :no_content
+        else
+          unprocessable_entity(@post)
+        end
       end
 
       private
