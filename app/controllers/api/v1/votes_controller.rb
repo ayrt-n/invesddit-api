@@ -9,10 +9,9 @@ module Api
 
         # Find or initialize vote from votable belonging to current account
         @vote = @votable.votes.find_or_initialize_by(account_id: current_account.id)
-        @vote.vote = vote_type
 
         # Save changes and render resource or errors
-        if @vote.save
+        if @vote.update_attribute(:vote, vote_type)
           render_resource(@vote)
         else
           unprocessable_entity(@vote)
