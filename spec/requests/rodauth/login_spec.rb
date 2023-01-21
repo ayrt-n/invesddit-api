@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe '/POST login', type: :request do
   let(:account) { create(:account, :verified) }
-  let(:unverified_account) { create(:account) }
+  let(:unverified_account) { create(:account, :unverified) }
   let(:login_url) { '/login' }
 
   context 'when account is verified' do
