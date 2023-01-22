@@ -10,7 +10,7 @@ RSpec.describe '/PATCH communities', type: :request do
     community_url = "/api/v1/communities/#{community.sub_dir}"
 
     # Set account as admin of community
-    membership = create(:membership, :is_admin, account: account, community: community)
+    create(:membership, :is_admin, account: account, community: community)
 
     login_with_api(account)
     patch community_url, headers: {
