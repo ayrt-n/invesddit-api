@@ -4,5 +4,9 @@ FactoryBot.define do
     association :community
 
     role { 1 }
+
+    trait :is_admin do
+      role { 2 }
+    end
   end
 end
