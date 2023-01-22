@@ -28,6 +28,7 @@ module Api
 
       def update
         @community = Community.friendly.find(params['id'])
+        return access_denied unless @community.admins.include?(current_account)
 
         if @community.update(community_params)
           render_resource(@community)
