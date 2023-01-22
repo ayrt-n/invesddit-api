@@ -4,6 +4,7 @@ class Community < ApplicationRecord
 
   has_many :posts
   has_many :memberships
+  has_many :admins, -> { where(memberships: { role: 'admin' }) }, through: :memberships, source: :account
 
   validates :sub_dir, presence: true,
                       uniqueness: true,
@@ -13,6 +14,6 @@ class Community < ApplicationRecord
   validates :description, length: { maximum: 140 }
 
   def admin_ids
-    memberships.where(role: 'admin').pluck(:account_id)
+    admins.ids
   end
 end
