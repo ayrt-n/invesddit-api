@@ -26,7 +26,7 @@ RSpec.describe '/POST communities', type: :request do
 
     record = Community.last
 
-    expect(record.admin_ids).to include(verified_account.id)
+    expect(record.admins).to include(verified_account)
   end
 
   context 'when attributes invalid' do
