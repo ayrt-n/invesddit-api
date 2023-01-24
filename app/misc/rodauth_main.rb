@@ -129,8 +129,9 @@ class RodauthMain < Rodauth::Rails::Auth
         throw_error_status(422, 'username', 'must only include letters, numbers, or underscore')
       end
 
-      # Set account username
+      # Set account username and created_at
       account[:username] = username
+      account[:created_at] = DateTime.now
     end
 
     # Perform additional actions after the account is created.
