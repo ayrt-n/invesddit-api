@@ -9,7 +9,7 @@ module Api
         render json: @posts,
                only: %i[id title body created_at],
                include: {
-                 community: { only: %i[id sub_dir description] },
+                 community: { only: %i[id sub_dir description memberships_count] },
                  account: { only: %i[id] },
                  comments: { only: %i[id] }
                }
