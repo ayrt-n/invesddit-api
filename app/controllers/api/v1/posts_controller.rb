@@ -10,7 +10,7 @@ module Api
                only: %i[id title body created_at],
                include: {
                  community: { only: %i[id sub_dir description memberships_count] },
-                 account: { only: %i[id] },
+                 account: { only: %i[id username created_at] },
                  comments: { only: %i[id] }
                }
       end
