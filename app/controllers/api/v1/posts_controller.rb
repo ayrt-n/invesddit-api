@@ -4,9 +4,15 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
 
       def index
-        @posts = Post.all
+        @posts = Post.all.includes(:account, :votes, :community, :comments)
 
-        render_resource(@posts)
+        render json: @posts,
+               only: %i[id title body created_at],
+               include: {
+                 community: { only: %i[id sub_dir description] },
+                 account: { only: %i[id] },
+                 comments: { only: %i[id] }
+               }
       end
 
       def create
