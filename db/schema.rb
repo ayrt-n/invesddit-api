@@ -39,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_120707) do
     t.string "password_hash"
     t.string "username"
     t.index ["email"], name: "index_accounts_on_email", unique: true, where: "(status = ANY (ARRAY[1, 2]))"
+    t.index ["username"], name: "index_accounts_on_username"
   end
 
   create_table "comments", force: :cascade do |t|
