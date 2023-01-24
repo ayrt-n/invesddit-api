@@ -5,6 +5,7 @@ FactoryBot.define do
 
     # Set fake email and password
     email { Faker::Internet.email }
+    username { Faker::Internet.username}
     password { Faker::Internet.password }
 
     # Traits to set account to verified/unverified
