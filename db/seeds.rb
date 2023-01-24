@@ -5,9 +5,12 @@ account3 = Account.create(email: 'fake3@test.com', password: 'pass1234')
 
 # Create community
 community1 = Community.create(sub_dir: 'KO')
+community2 = Community.create(sub_dir: 'SHOP')
 
 # Create posts
 post1 = Post.create(title: 'New post', body: 'new post', account: account1, community: community1)
+post2 = Post.create(title: 'New post', body: 'new post', account: account1, community: community1)
+post3 = Post.create(title: 'New post', body: 'new post', account: account1, community: community2)
 
 # Create votes
 post1.votes.create(vote: 1, account: account1)
