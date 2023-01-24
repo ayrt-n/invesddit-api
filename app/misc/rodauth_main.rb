@@ -116,6 +116,9 @@ class RodauthMain < Rodauth::Rails::Auth
       # Confirm username provided
       throw_error_status(422, 'username', 'must be present') unless username
 
+      # Check if username already taken
+      throw_error_status(422, 'username', 'is already taken') if Account.find_by(username: username)
+
       # Check valid username length
       if username && !username.length.between?(min_name_length, max_name_length)
         throw_error_status(422, 'username', "must be between #{min_name_length} and #{max_name_length} characters")
