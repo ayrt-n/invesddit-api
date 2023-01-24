@@ -1,7 +1,7 @@
 # Create a few accounts
-account1 = Account.create(email: 'fake1@test.com', password: 'pass1234')
-account2 = Account.create(email: 'fake2@test.com', password: 'pass1234')
-account3 = Account.create(email: 'fake3@test.com', password: 'pass1234')
+account1 = Account.create(email: 'fake1@test.com', password: 'pass1234', username: 'finance_dude')
+account2 = Account.create(email: 'fake2@test.com', password: 'pass1234', username: 'ls_hedgie')
+account3 = Account.create(email: 'fake3@test.com', password: 'pass1234', username: 'bobby')
 
 # Create community
 community1 = Community.create(sub_dir: 'KO')
