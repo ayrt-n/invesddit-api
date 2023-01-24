@@ -106,16 +106,36 @@ class RodauthMain < Rodauth::Rails::Auth
 
     # ==> Hooks
     # Validate custom fields in the create account form.
-    # before_create_account do
-    #   throw_error_status(422, "name", "must be present") if param("name").empty?
-    # end
+    # This will only validate on initial account creation
+    # Must use Rails controller and model validation outside of initial creation
+    before_create_account do
+      min_name_length = 3
+      max_name_length = 20
+      username = param_or_nil('username')
+
+      # Confirm username provided
+      throw_error_status(422, 'username', 'must be present') unless username
+
+      # Check valid username length
+      if username && !username.length.between?(min_name_length, max_name_length)
+        throw_error_status(422, 'username', "must be between #{min_name_length} and #{max_name_length} characters")
+      end
+
+      # Check valid username characters
+      if !username || username.match?(/\W/)
+        throw_error_status(422, 'username', 'must only include letters, numbers, or underscore')
+      end
+
+      # Set account username
+      account[:username] = username
+    end
 
     # Perform additional actions after the account is created.
     # after_create_account do
     #   Profile.create!(account_id: account_id, name: param("name"))
     # end
 
-    # Do additional cleanup after the account is closed.
+    # # Do additional cleanup after the account is closed.
     # after_close_account do
     #   Profile.find_by!(account_id: account_id).destroy
     # end
