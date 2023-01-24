@@ -4,8 +4,8 @@ account2 = Account.create(email: 'fake2@test.com', password: 'pass1234', usernam
 account3 = Account.create(email: 'fake3@test.com', password: 'pass1234', username: 'bobby')
 
 # Create community
-community1 = Community.create(sub_dir: 'KO')
-community2 = Community.create(sub_dir: 'SHOP')
+community1 = Community.create(sub_dir: 'KO', description: 'Community dedicated to Coca Cola ($KO)! We like the drink and love the stock!')
+community2 = Community.create(sub_dir: 'SHOP', description: 'For all things Shopify! Discuss trends, investment ideas, and anything related to $SHOP!')
 
 # Create posts
 post1 = Post.create(title: 'New post', body: 'new post', account: account1, community: community1)
