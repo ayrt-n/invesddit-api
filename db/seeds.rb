@@ -16,3 +16,10 @@ post3 = Post.create(title: 'New post', body: 'new post', account: account1, comm
 post1.votes.create(vote: 1, account: account1)
 post1.votes.create(vote: -1, account: account2)
 post1.votes.create(vote: 1, account: account3)
+
+# Create memberships
+community1.memberships.create(account_id: account1.id, role: 'admin')
+community1.memberships.create(account_id: account2.id)
+community2.memberships.create(account_id: account1.id)
+community2.memberships.create(account_id: account2.id)
+community2.memberships.create(account_id: account3.id, role: 'admin')
