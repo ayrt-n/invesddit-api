@@ -86,3 +86,6 @@ gem 'friendly_id', '~> 5.4.0'
 
 # Add shoulda matchers gem to test validations
 gem 'shoulda-matchers', group: :test
+
+# Add rack-cors gem for cross-origin resource sharing
+gem 'rack-cors'
