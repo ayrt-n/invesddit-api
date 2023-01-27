@@ -20,7 +20,8 @@ module Api
                        only: %i[id username created_at]
                      }
                    },
-                   only: %i[id title body comments_count created_at]
+                   only: %i[id title body comments_count created_at],
+                   methods: %i[score]
                  }
                }
       end

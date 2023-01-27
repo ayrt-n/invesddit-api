@@ -8,9 +8,10 @@ module Api
 
         render json: @posts,
                only: %i[id title body comments_count created_at],
+               methods: %i[score],
                include: {
                  community: { only: %i[id sub_dir description memberships_count] },
-                 account: { only: %i[id username created_at] },
+                 account: { only: %i[id username created_at] }
                }
       end
 
