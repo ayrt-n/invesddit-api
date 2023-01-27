@@ -7,11 +7,10 @@ module Api
         @posts = Post.all.includes(:account, :votes, :community, :comments)
 
         render json: @posts,
-               only: %i[id title body created_at],
+               only: %i[id title body comments_count created_at],
                include: {
                  community: { only: %i[id sub_dir description memberships_count] },
                  account: { only: %i[id username created_at] },
-                 comments: { only: %i[id] }
                }
       end
 

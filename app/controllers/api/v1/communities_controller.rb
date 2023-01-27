@@ -18,10 +18,9 @@ module Api
                    include: {
                      account: {
                        only: %i[id username created_at]
-                     },
-                     comments: { only: %i[id]}
+                     }
                    },
-                   only: %i[id title body created_at]
+                   only: %i[id title body comments_count created_at]
                  }
                }
       end
