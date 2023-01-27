@@ -28,3 +28,11 @@ community1.memberships.create(account_id: account2.id)
 community2.memberships.create(account_id: account1.id)
 community2.memberships.create(account_id: account2.id)
 community2.memberships.create(account_id: account3.id, role: 'admin')
+
+
+# Create comments
+comment1 = post1.comments.create(body: 'Hello!', account: account1)
+comment1_1 = comment1.comments.create(body: 'Hello!', account: account1)
+comment1_2 = comment1.comments.create(body: 'Hello!', account: account1)
+comment1_1_1 = comment1_1.comments.create(body: 'Hello!', account: account1)
+comment2 = post1.comments.create(body: 'Hello!', account: account1)
