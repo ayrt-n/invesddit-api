@@ -11,8 +11,7 @@ module Api
       def show
         @community = Community.friendly.find(params['id'])
 
-        render json: @community,
-               only: %i[id title sub_dir description memberships_count created_at]
+        render :show
       end
 
       def create
