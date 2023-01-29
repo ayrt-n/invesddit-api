@@ -11,7 +11,7 @@ class Community < ApplicationRecord
                       length: { maximum: 20 }
 
   validates :title, length: { maximum: 20 }
-  validates :description, length: { maximum: 140 }
+  validates :description, length: { maximum: 500 }
 
   def admin_ids
     admins.ids
