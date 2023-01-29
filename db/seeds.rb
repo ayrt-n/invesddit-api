@@ -25,7 +25,7 @@ communities.each { |c| Membership.create(account: admin, community: c) }
 50.times { Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, commentable: Comment.all.sample) }
 
 # Create votes
-possible_votes = ['upvote', 'downvote']
+possible_votes = ['upvote', 'upvote', 'upvote', 'downvote']
 
 accounts.each do |account|
   # Don't make votes for our own account
