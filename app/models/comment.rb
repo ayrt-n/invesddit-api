@@ -3,7 +3,9 @@ class Comment < ApplicationRecord
   belongs_to :account
 
   has_many :comments, as: :commentable
+
   has_many :votes, as: :votable
+  include Votable
 
   validates :body, presence: true
 
