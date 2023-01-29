@@ -12,18 +12,7 @@ module Api
         @community = Community.friendly.find(params['id'])
 
         render json: @community,
-               only: %i[title sub_dir description memberships_count created_at],
-               include: {
-                 posts: {
-                   include: {
-                     account: {
-                       only: %i[id username created_at]
-                     }
-                   },
-                   only: %i[id title body comments_count created_at],
-                   methods: %i[score]
-                 }
-               }
+               only: %i[id title sub_dir description memberships_count created_at]
       end
 
       def create
