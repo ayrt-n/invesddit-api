@@ -5,6 +5,7 @@ module Api
 
       def index
         @posts = Post.all.includes(:account, :votes, :community, :comments)
+        @posts = @posts.filter_by_community(params[:community]) if params[:community]
 
         render json: @posts,
                only: %i[id title body comments_count created_at],
