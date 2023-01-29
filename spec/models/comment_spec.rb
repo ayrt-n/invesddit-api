@@ -1,7 +1,9 @@
 require 'rails_helper'
+require Rails.root.join('spec/concerns/votable_spec.rb')
 
 RSpec.describe Comment, type: :model do
   it { is_expected.to validate_presence_of(:body) }
+  it_behaves_like 'votable'
 
   context 'after create' do
     it 'increments Post comment count' do
