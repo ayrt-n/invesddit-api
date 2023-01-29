@@ -7,13 +7,13 @@ module Api
         @posts = Post.all.includes(:account, :votes, :community, :comments)
         @posts = @posts.filter_by_community(params[:community]) if params[:community]
 
-        render json: @posts,
-               only: %i[id title body comments_count created_at],
-               methods: %i[score],
-               include: {
-                 community: { only: %i[id sub_dir description memberships_count] },
-                 account: { only: %i[id username created_at] }
-               }
+        render :index
+      end
+
+      def show
+        @post = Post.find(params[:id])
+
+        render :show
       end
 
       def create
@@ -21,7 +21,7 @@ module Api
         @post = @community.posts.build(post_params.merge({ account_id: current_account.id }))
 
         if @post.save
-          render_resource(@post)
+          render :show
         else
           unprocessable_entity(@post)
         end
@@ -32,7 +32,7 @@ module Api
         return access_denied unless @post.account == current_account
 
         if @post.update(post_params)
-          render_resource(@post)
+          render :show
         else
           unprocessable_entity(@post)
         end
