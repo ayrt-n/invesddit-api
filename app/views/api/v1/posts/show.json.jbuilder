@@ -11,7 +11,7 @@ json.data do
   # If no comments, renders empty array
   json.comments do
     if @post.comments.exists?
-      json.partial! @post.comments, partial: 'api/v1/comments/comment', as: :comment
+      json.array! @post.comments, partial: 'api/v1/comments/comment', as: :comment
     else
       json.array!
     end

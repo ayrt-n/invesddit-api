@@ -1,6 +1,7 @@
 # Comment Data
 json.id comment.id
 json.body comment.body
+json.created_at comment.created_at
 
 # Comment Author (Account) Data
 json.account do
@@ -11,7 +12,7 @@ end
 # If no nested comments, renders empty array
 json.comments do
   if comment.comments.exists?
-    json.partial! @comment.comments, partial: 'api/v1/comments/comment', as: :comment
+    json.array! comment.comments, partial: 'api/v1/comments/comment', as: :comment
   else
     json.array!
   end
