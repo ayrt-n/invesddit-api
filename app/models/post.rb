@@ -8,4 +8,6 @@ class Post < ApplicationRecord
   include Votable
 
   validates :title, presence: true
+
+  scope :filter_by_community, ->(community) { joins(:community).where('communities.sub_dir = ?', community) }
 end
