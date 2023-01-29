@@ -6,7 +6,7 @@ Rails.application.routes.draw do
         resources :memberships, only: %i[create]
       end
 
-      resources :posts, only: %i[index update destroy] do
+      resources :posts, only: %i[index show update destroy] do
         resources :comments, only: %i[create]
         resources :votes, only: %i[create destroy]
       end
