@@ -10,9 +10,7 @@ class Vote < ApplicationRecord
 
   # Increment/decrement votable score following creation, depending on up/downvote
   def update_score_on_create
-    if saved_changes?
-      vote_type == 'upvote' ? votable.increment!(:cached_score) : votable.decrement!(:cached_score)
-    end
+    vote_type == 'upvote' ? votable.increment!(:cached_score) : votable.decrement!(:cached_score)
   end
 
   # Increment/decrement votable score following update, depending on up/downvote
