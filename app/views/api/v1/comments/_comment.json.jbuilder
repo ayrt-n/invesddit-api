@@ -1,7 +1,7 @@
 # Comment Data
 json.id comment.id
 json.body comment.body
-json.score comment.score
+json.score comment.cached_score
 json.created_at comment.created_at
 
 # Comment Author (Account) Data
