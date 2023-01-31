@@ -2,7 +2,7 @@ class Vote < ApplicationRecord
   belongs_to :account
   belongs_to :votable, polymorphic: true
 
-  enum :type, { downvote: -1, upvote: 1 }
+  enum :vote_type, { downvote: -1, upvote: 1 }
 
   after_create :update_score_on_create
   after_update :update_score_on_update
@@ -11,7 +11,7 @@ class Vote < ApplicationRecord
   # Increment/decrement votable score following creation, depending on up/downvote
   def update_score_on_create
     if saved_changes?
-      type == 'upvote' ? votable.increment!(:cached_score) : votable.decrement!(:cached_score)
+      vote_type == 'upvote' ? votable.increment!(:cached_score) : votable.decrement!(:cached_score)
     end
   end
 
@@ -19,14 +19,14 @@ class Vote < ApplicationRecord
   # After an update, must increment/decrement by two to reflect removal of previous vote and the new vote
   def update_score_on_update
     # Return if change was not made to type (e.g., upvote changed to downvote or vice versa)
-    return unless saved_change_to_type
+    return unless saved_change_to_vote_type
 
-    type == 'upvote' ? votable.increment!(:cached_score, 2) : votable.decrement!(:cached_score, 2)
+    vote_type == 'upvote' ? votable.increment!(:cached_score, 2) : votable.decrement!(:cached_score, 2)
   end
 
   # Increment/decrement votable score following destroy, depending on up/downvote
   # After destroy, must decrement if upvote is destroyed or increment if downvote was destroyed
   def update_score_on_destroy
-    type == 'upvote' ? votable.decrement!(:cached_score) : votable.increment!(:cached_score)
+    vote_type == 'upvote' ? votable.decrement!(:cached_score) : votable.increment!(:cached_score)
   end
 end

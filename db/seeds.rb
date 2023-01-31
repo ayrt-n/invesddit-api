@@ -32,9 +32,9 @@ accounts.each do |account|
   next if account == admin
 
   # Have account vote on each post
-  posts.each { |post| post.votes.create(account: account, vote: possible_votes.sample) }
+  posts.each { |post| post.votes.create(account: account, vote_type: possible_votes.sample) }
 
   # Vote on random sample of comments
   comments = Comment.order('RANDOM()').limit(10)
-  comments.each { |comment| comment.votes.create(account: account, vote: possible_votes.sample) }
+  comments.each { |comment| comment.votes.create(account: account, vote_type: possible_votes.sample) }
 end

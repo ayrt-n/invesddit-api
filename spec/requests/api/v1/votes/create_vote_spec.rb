@@ -16,7 +16,7 @@ RSpec.describe '/POST votable/:votable_id/votes', type: :request do
     expect(response.status).to eq(200)
     expect(vote.account).to eq(account)
     expect(vote.votable).to eq(post)
-    expect(vote.vote).to eq('upvote')
+    expect(vote.vote_type).to eq('upvote')
   end
 
   it 'updates vote if account has already voted' do
@@ -32,6 +32,6 @@ RSpec.describe '/POST votable/:votable_id/votes', type: :request do
     vote = Vote.last
 
     expect(response.status).to eq(200)
-    expect(vote.vote).to eq('downvote')
+    expect(vote.vote_type).to eq('downvote')
   end
 end
