@@ -4,7 +4,7 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
 
       def index
-        @posts = Post.all.includes(:account, :votes, :community, :comments)
+        @posts = Post.all.includes(:account, :votes, :community)
         @posts = @posts.filter_by_community(params[:community]) if params[:community]
 
         render :index
