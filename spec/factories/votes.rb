@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :vote do
+    for_post
     association :account, status: :verified
-    vote { 1 }
+    type { 1 }
 
     trait :for_post do
       association :votable, factory: :post
