@@ -10,7 +10,7 @@ class Vote < ApplicationRecord
 
   # Increment/decrement votable score following creation, depending on up/downvote
   def update_score_on_create
-    vote_type == 'upvote' ? votable.increment!(:cached_score) : votable.decrement!(:cached_score)
+    vote_type == 'upvote' ? votable.increment(:cached_score).save : votable.decrement(:cached_score).save
   end
 
   # Increment/decrement votable score following update, depending on up/downvote
@@ -19,12 +19,12 @@ class Vote < ApplicationRecord
     # Return if change was not made to type (e.g., upvote changed to downvote or vice versa)
     return unless saved_change_to_vote_type
 
-    vote_type == 'upvote' ? votable.increment!(:cached_score, 2) : votable.decrement!(:cached_score, 2)
+    vote_type == 'upvote' ? votable.increment(:cached_score, 2).save : votable.decrement(:cached_score, 2).save
   end
 
   # Increment/decrement votable score following destroy, depending on up/downvote
   # After destroy, must decrement if upvote is destroyed or increment if downvote was destroyed
   def update_score_on_destroy
-    vote_type == 'upvote' ? votable.decrement!(:cached_score) : votable.increment!(:cached_score)
+    vote_type == 'upvote' ? votable.decrement(:cached_score).save : votable.increment(:cached_score).save
   end
 end
