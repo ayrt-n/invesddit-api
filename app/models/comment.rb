@@ -4,8 +4,14 @@ class Comment < ApplicationRecord
 
   has_many :comments, as: :commentable
 
-  has_many :votes, as: :votable
   include Votable
+  has_many :votes, as: :votable
+
+  before_update :update_hot_ranking
+
+  def update_hot_ranking
+    self.cached_hot_rank = hot_rank if cached_score_changed?
+  end
 
   validates :body, presence: true
 
