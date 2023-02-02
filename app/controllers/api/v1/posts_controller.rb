@@ -6,6 +6,7 @@ module Api
       def index
         @posts = Post.all.includes(:account, :votes, :community)
         @posts = @posts.filter_by_community(params[:community]) if params[:community]
+        @posts = @posts.send("sort_by_#{sort_by_params}")
 
         render :index
       end
@@ -53,6 +54,14 @@ module Api
 
       def post_params
         params.require(:post).permit(:title, :body)
+      end
+
+      def sort_by_params
+        # Return specified sort_by param if whitelisted
+        return params[:sort_by] if %w[hot new top].include?(params[:sort_by])
+
+        # Otherwise return default to sort by hot
+        'hot'
       end
     end
   end
