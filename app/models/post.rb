@@ -7,10 +7,13 @@ class Post < ApplicationRecord
   include Votable
   has_many :votes, as: :votable
 
-  before_update :update_hot_ranking
+  before_save :update_cached_rankings, if: :cached_upvotes_changed? || :cached_downvotes_changed?
 
-  def update_hot_ranking
-    self.cached_hot_rank = hot_rank if cached_score_changed?
+  def update_cached_rankings
+    rank = Rank.new(upvotes: cached_upvotes, downvotes: cached_downvotes, created_at:)
+
+    self.cached_score = rank.score
+    self.cached_hot_rank = rank.hot_rank
   end
 
   validates :title, presence: true
