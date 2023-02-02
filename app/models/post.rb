@@ -14,6 +14,7 @@ class Post < ApplicationRecord
 
     self.cached_score = rank.score
     self.cached_hot_rank = rank.hot_rank
+    self.cached_confidence_score = rank.confidence_score
   end
 
   validates :title, presence: true

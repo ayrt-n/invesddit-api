@@ -27,6 +27,22 @@ class Rank
     (sign * order + seconds / 90_000).round(7)
   end
 
+  # Reddit Best Ranking Algorithm (Wilson Score)
+  # Adapted from https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9#:~:text=Reddit's%20hot%20ranking%20uses%20the,as%20the%20next%201000%20etc%E2%80%A6
+  def confidence_score
+    n = upvotes + downvotes
+    return 0 if (upvotes - downvotes).zero? || n.zero?
+
+    z_value = 1.281551565545
+    positives = upvotes.to_f / n
+
+    left = positives + 1 / (2 * n) * z_value * z_value
+    right = z_value * Math.sqrt(positives * (1 - positives) / n + z_value * z_value / (4 * n * n))
+    under = 1 + 1 / n * z_value * z_value
+
+    (left - right) / under
+  end
+
   private
 
   # Calculate difference in seconds between created_at date and epoch time
