@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   include Votable
   has_many :votes, as: :votable
 
-  before_save :update_cached_rankings, if: :cached_upvotes_changed? || :cached_downvotes_changed?
+  before_save :update_cached_rankings, if: :ranking_update_required?
 
   def update_cached_rankings
     rank = Rank.new(upvotes: cached_upvotes, downvotes: cached_downvotes, created_at:)
@@ -26,4 +26,11 @@ class Post < ApplicationRecord
   scope :sort_by_hot, -> { order(cached_hot_rank: :desc) }
   scope :sort_by_new, -> { order(created_at: :desc) }
   scope :sort_by_top, -> { order(cached_score: :desc) }
+
+  private
+
+  # If record is new, or upvotes/downvotes changed, will need to update cached ranking
+  def ranking_update_required?
+    cached_upvotes_changed? || cached_downvotes_changed?
+  end
 end
