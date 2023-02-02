@@ -15,5 +15,11 @@ class Post < ApplicationRecord
 
   validates :title, presence: true
 
+  # Filtering Scopes
   scope :filter_by_community, ->(community) { joins(:community).where('communities.sub_dir = ?', community) }
+
+  # Ordering Scopes
+  scope :sort_by_hot, -> { order(cached_hot_rank: :desc) }
+  scope :sort_by_new, -> { order(created_at: :desc) }
+  scope :sort_by_top, -> { order(cached_score: :desc) }
 end
