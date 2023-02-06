@@ -15,7 +15,13 @@ class Rank
   # Adapted from https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9#:~:text=Reddit's%20hot%20ranking%20uses%20the,as%20the%20next%201000%20etc%E2%80%A6
   def hot_rank
     order = Math.log([score.abs, 1].max, 10)
-    sign = score.positive? ? 1 : 0
+    sign = if score.positive?
+             1
+           elsif score.negative?
+             -1
+           else
+             0
+           end
 
     # Calculate difference between epoch_seconds and unix timestamp for January 1, 2023
     # Unix timestamp is somewhat arbitrary, no votables should be older than January 1, 2023
