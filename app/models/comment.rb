@@ -17,6 +17,11 @@ class Comment < ApplicationRecord
     self.cached_confidence_score = rank.confidence_score
   end
 
+  # Ordering Scopes
+  scope :sort_by_hot, -> { order(cached_hot_rank: :desc) }
+  scope :sort_by_new, -> { order(created_at: :desc) }
+  scope :sort_by_top, -> { order(cached_score: :desc) }
+
   validates :body, presence: true
 
   # Custom counter cache for Post model
@@ -50,6 +55,6 @@ class Comment < ApplicationRecord
 
   # If record is new, or upvotes/downvotes changed, will need to update cached ranking
   def ranking_update_required?
-    cached_upvotes_changed? || cached_downvotes_changed?
+    new_record? || cached_upvotes_changed? || cached_downvotes_changed?
   end
 end
