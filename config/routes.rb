@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       end
 
       resources :posts, only: %i[index show update destroy] do
-        resources :comments, only: %i[create]
+        resources :comments, only: %i[index create]
         resources :votes, only: %i[create destroy]
       end
 
