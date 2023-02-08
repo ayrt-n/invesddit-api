@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_02_143615) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_08_130908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_143615) do
     t.bigint "votable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "votable_id", "votable_type"], name: "index_votes_on_account_id_and_votable_id_and_votable_type", unique: true
     t.index ["account_id"], name: "index_votes_on_account_id"
     t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
   end
