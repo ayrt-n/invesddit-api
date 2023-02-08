@@ -30,7 +30,7 @@ class Post < ApplicationRecord
 
   private
 
-  # If record is new, or upvotes/downvotes changed, will need to update cached ranking
+  # If record upvotes/downvotes changed, will need to update cached ranking
   def ranking_update_required?
     cached_upvotes_changed? || cached_downvotes_changed?
   end
