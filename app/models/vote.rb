@@ -4,6 +4,8 @@ class Vote < ApplicationRecord
 
   enum :vote_type, { downvote: -1, upvote: 1 }
 
+  validates :account_id, uniqueness: { scope: %i[votable_id votable_type], message: 'has already voted on this item' }
+
   after_create :update_votable_on_create
   after_update :update_votable_on_update
   after_destroy :update_votable_on_destroy
