@@ -54,8 +54,8 @@ class Comment < ApplicationRecord
     parent
   end
 
-  # If record is new, or upvotes/downvotes changed, will need to update cached ranking
+  # If upvotes/downvotes changed, will need to update cached ranking
   def ranking_update_required?
-    new_record? || cached_upvotes_changed? || cached_downvotes_changed?
+    cached_upvotes_changed? || cached_downvotes_changed?
   end
 end
