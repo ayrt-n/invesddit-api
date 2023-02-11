@@ -10,8 +10,7 @@ class Account < ApplicationRecord
   has_many :memberships
   has_many :communities, through: :memberships
 
-  def join_community(community_sub_dir)
-    community = Community.friendly.find(community_sub_dir)
+  def join_community(community)
     memberships.create(community:)
   end
 end
