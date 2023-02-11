@@ -19,7 +19,7 @@ module Api
 
       def create
         @community = Community.friendly.find(params[:community_id])
-        @post = @community.posts.build(post_params.merge({ account_id: current_account.id }))
+        @post = @community.posts.build(post_params.merge({ account_id: @current_account.id }))
 
         if @post.save
           render :show
@@ -30,7 +30,7 @@ module Api
 
       def update
         @post = Post.find(params[:id])
-        return access_denied unless @post.account == current_account
+        return access_denied unless @post.account == @current_account
 
         if @post.update(post_params)
           render :show
@@ -41,7 +41,7 @@ module Api
 
       def destroy
         @post = Post.find(params[:id])
-        return access_denied unless @post.account == current_account
+        return access_denied unless @post.account == @current_account
 
         if @post.destroy
           head :no_content
