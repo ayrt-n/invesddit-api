@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :set_current_account
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   # Format of successful response { "data" : ... }
@@ -39,11 +40,11 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def current_account
-    rodauth.rails_account
+  def set_current_account
+    @current_account = rodauth.rails_account
   end
 
   def authenticate
-    rodauth.require_account # redirect to login page if not authenticated
+    rodauth.require_account
   end
 end
