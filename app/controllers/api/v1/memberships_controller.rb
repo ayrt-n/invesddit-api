@@ -15,10 +15,10 @@ module Api
 
       def destroy
         @community = Community.friendly.find(params[:community_id])
-        @membership = Membership.where(account: @current_account, community: @community).first
+        @membership = @current_account.memberships.where(community: @community)
         return not_found unless @membership
 
-        if @membership.destroy
+        if @membership.destroy_all
           head :no_content
         else
           unprocessable_entity(@membership)
