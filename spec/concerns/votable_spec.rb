@@ -24,4 +24,29 @@ shared_examples_for 'votable' do
       expect(votable.account_voted?(account)).to eq(true)
     end
   end
+
+  context '#vote_type_by_account' do
+    it 'returns upvote if account has upvoted' do
+      account = create(:account)
+      votable = create(model.to_s.underscore.to_sym)
+      create(:vote, votable:, account:)
+
+      expect(votable.vote_type_by_account(account)).to eq('upvote')
+    end
+
+    it 'returns downvote if account has downvoted' do
+      account = create(:account)
+      votable = create(model.to_s.underscore.to_sym)
+      create(:vote, vote_type: 'downvote', votable:, account:)
+
+      expect(votable.vote_type_by_account(account)).to eq('downvote')
+    end
+
+    it 'returns nil if account has not voted' do
+      account = create(:account)
+      votable = create(model.to_s.underscore.to_sym)
+
+      expect(votable.vote_type_by_account(account)).to eq(nil)
+    end
+  end
 end
