@@ -4,10 +4,9 @@ module Api
       before_action :authenticate, only: %i[create destroy]
 
       def create
-        @community = Community.friendly.find(params[:community_id])
-        @membership = @community.memberships.build(account_id: @current_account.id)
+        @membership = @current_account.join_community(params[:community_id])
 
-        if @membership.save
+        if @membership
           render_resource(@membership)
         else
           unprocessable_entity(@membership)
