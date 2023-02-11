@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :communities, only: %i[index create show update] do
         resources :posts, only: %i[create]
-        resources :memberships, only: %i[create]
+        resource :memberships, only: %i[create destroy]
       end
 
       resources :posts, only: %i[index show update destroy] do
@@ -17,7 +17,6 @@ Rails.application.routes.draw do
       end
 
       resources :votes, only: %i[destroy]
-      resources :memberships, only: %i[destroy]
     end
   end
 end

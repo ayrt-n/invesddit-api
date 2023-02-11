@@ -15,8 +15,9 @@ module Api
       end
 
       def destroy
-        @membership = Membership.find(params[:id])
-        return access_denied unless @membership.account == @current_account
+        @community = Community.friendly.find(params[:community_id])
+        @membership = Membership.where(account: @current_account, community: @community).first
+        return not_found unless @membership
 
         if @membership.destroy
           head :no_content
