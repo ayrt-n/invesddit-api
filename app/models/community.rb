@@ -5,6 +5,7 @@ class Community < ApplicationRecord
   has_many :posts
   has_many :memberships
   has_many :admins, -> { where(memberships: { role: 'admin' }) }, through: :memberships, source: :account
+  has_many :members, through: :memberships, source: :account
 
   validates :sub_dir, presence: true,
                       uniqueness: true,
