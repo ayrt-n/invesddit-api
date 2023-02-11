@@ -1,7 +1,8 @@
 module Api
   module V1
     class VotesController < ApplicationController
-      before_action :set_votable, only: %i[create]
+      before_action :set_votable
+      before_action :authenticate
 
       def create
         # If upvote set value to 1, otherwise set the value to -1 for downvote
@@ -19,10 +20,10 @@ module Api
       end
 
       def destroy
-        @vote = Vote.find(params[:id])
-        return access_denied unless @vote.account == current_account
+        @vote = @current_account.votes.where(votable: @votable)
+        return not_found unless @vote
 
-        if @vote.destroy
+        if @vote.destroy_all
           head :no_content
         else
           unprocessable_entity(@vote)
