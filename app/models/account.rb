@@ -9,6 +9,7 @@ class Account < ApplicationRecord
 
   has_many :memberships
   has_many :communities, through: :memberships
+  has_many :votes
 
   def join_community(community)
     memberships.create(community:)
