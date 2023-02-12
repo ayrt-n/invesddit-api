@@ -22,7 +22,7 @@ module Api
         @post = @community.posts.build(post_params.merge({ account_id: @current_account.id }))
 
         if @post.save
-          render :show
+          render :create
         else
           unprocessable_entity(@post)
         end
