@@ -1,6 +1,6 @@
 json.data do
   # Post Data
-  json.partial! 'api/v1/posts/post', post: @post
+  json.partial! 'api/v1/posts/post', post: @post, current_account: @current_account
 
   # Posts Author (Account) Data
   json.account do
