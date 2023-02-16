@@ -17,7 +17,7 @@ module Api
         )
 
         if @comment.save
-          render_resource(@comment)
+          render :show
         else
           unprocessable_entity(@comment)
         end
