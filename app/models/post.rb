@@ -17,7 +17,7 @@ class Post < ApplicationRecord
     self.cached_confidence_score = rank.confidence_score
   end
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 300 }
 
   # Filtering Scopes
   scope :filter_by_community, ->(community) { joins(:community).where('communities.sub_dir = ?', community) }
