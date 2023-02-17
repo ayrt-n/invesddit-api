@@ -19,7 +19,16 @@ module Api
 
       def create
         @community = Community.friendly.find(params[:community_id])
-        @post = @community.posts.build(post_params.merge({ account_id: @current_account.id }))
+        @post = @community
+                .posts
+                .build(
+                  post_params.merge(
+                    {
+                      account_id: @current_account.id,
+                      type: params[:type]
+                    }
+                  )
+                )
 
         if @post.save
           render :create

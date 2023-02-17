@@ -18,6 +18,7 @@ class Post < ApplicationRecord
   end
 
   validates :title, presence: true, length: { maximum: 300 }
+  validates :type, presence: true, inclusion: { in: %w[TextPost LinkPost MediaPost] }
 
   # Filtering Scopes
   scope :filter_by_community, ->(community) { joins(:community).where('communities.sub_dir = ?', community) }

@@ -15,7 +15,7 @@ RSpec.describe '/POST votable/:votable_id/votes', type: :request do
 
     expect(response.status).to eq(200)
     expect(vote.account).to eq(account)
-    expect(vote.votable).to eq(post)
+    expect(vote.votable.id).to eq(post.id)
     expect(vote.vote_type).to eq('upvote')
   end
 
