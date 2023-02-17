@@ -32,7 +32,7 @@ RSpec.describe '/POST communities/:id/media_posts', type: :request do
   context 'when attributes invalid' do
     it 'returns status 422 with errors' do
       post_url = "/api/v1/communities/#{community.sub_dir}/media_posts"
-      post_params = build(:media_post, title: 'Link!', body: nil)
+      post_params = build(:media_post, title: nil)
 
       login_with_api(account)
       post post_url, headers: {
