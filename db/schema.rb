@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_08_132704) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_17_113248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_132704) do
     t.integer "cached_upvotes", default: 0
     t.integer "cached_downvotes", default: 0
     t.float "cached_confidence_score", default: 0.0
+    t.string "type"
     t.index ["account_id"], name: "index_posts_on_account_id"
     t.index ["community_id"], name: "index_posts_on_community_id"
   end
