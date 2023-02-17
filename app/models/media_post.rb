@@ -1,0 +1,2 @@
+class MediaPost < Post
+end
