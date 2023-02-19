@@ -2,10 +2,10 @@ class Post < ApplicationRecord
   belongs_to :account
   belongs_to :community
 
-  has_many :comments, as: :commentable
+  has_many :comments, as: :commentable, dependent: :destroy
 
   include Votable
-  has_many :votes, as: :votable
+  has_many :votes, as: :votable, dependent: :destroy
 
   before_save :update_cached_rankings, if: :ranking_update_required?
 
