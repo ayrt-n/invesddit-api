@@ -12,7 +12,7 @@ Community.create(sub_dir: 'GOOG', description: "c/GOOG is a community dedicated 
 communities = Community.all
 
 # Create posts
-10.times { Post.create(title: Faker::Lorem.paragraph(sentence_count: rand(1..2)), body: Faker::Lorem.paragraph(sentence_count: rand(1..30)), community: communities.sample, account: accounts.sample) }
+10.times { TextPost.create(title: Faker::Lorem.paragraph(sentence_count: rand(1..2)), body: Faker::Lorem.paragraph(sentence_count: rand(1..30)), community: communities.sample, account: accounts.sample) }
 posts = Post.all
 
 # Set your fake account to admin for all communities
