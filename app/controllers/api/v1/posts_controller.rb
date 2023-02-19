@@ -4,7 +4,10 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
 
       def index
-        @posts = Post.all.includes(:account, :votes, :community)
+        @posts = Post.all
+                     .includes(:account, :community)
+                     .with_attached_image
+
         @posts = @posts.filter_by_community(params[:community]) if params[:community]
         @posts = @posts.send("sort_by_#{sort_by_params}")
 
