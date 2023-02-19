@@ -89,3 +89,6 @@ gem 'shoulda-matchers', group: :test
 
 # Add rack-cors gem for cross-origin resource sharing
 gem 'rack-cors'
+
+# Add bullet gem to find n+1 queries
+gem 'bullet', group: 'development'
