@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :account
   belongs_to :community
 
+  has_one_attached :image, dependent: :destroy
+
   has_many :comments, as: :commentable, dependent: :destroy
 
   include Votable
