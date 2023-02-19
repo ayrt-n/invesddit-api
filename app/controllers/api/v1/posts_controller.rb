@@ -11,11 +11,14 @@ module Api
         @posts = @posts.filter_by_community(params[:community]) if params[:community]
         @posts = @posts.send("sort_by_#{sort_by_params}")
 
+        @current_account_votes = Vote.where(votable: @posts).where(account: @current_account)
+
         render :index
       end
 
       def show
         @post = Post.find(params[:id])
+        @current_account_vote = Vote.find_by(votable: @post, account: @current_account)
 
         render :show
       end
