@@ -13,7 +13,7 @@ end
 # Nested Comments Data
 # If no nested comments, renders empty array
 json.comments do
-  if comment.comments.exists?
+  if comment.comments
     json.array! comment.comments, partial: 'api/v1/comments/comment', as: :comment
   else
     json.array!
