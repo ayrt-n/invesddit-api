@@ -38,11 +38,7 @@ module Api
                   )
                 )
 
-        if @post.save
-          render :create
-        else
-          unprocessable_entity(@post)
-        end
+        unprocessable_entity(@post) unless @post.save
       end
 
       def update
