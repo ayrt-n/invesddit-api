@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { create(:membership) }
+  it { is_expected.to validate_uniqueness_of(:account).scoped_to(:community_id).with_message('is already a member') }
 end
