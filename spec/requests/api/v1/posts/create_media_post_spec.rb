@@ -6,24 +6,25 @@ RSpec.describe '/POST communities/:id/media_posts', type: :request do
 
   it 'creates a link post' do
     post_url = "/api/v1/communities/#{community.sub_dir}/media_posts"
-    post_params = build(:media_post)
 
     login_with_api(account)
     post post_url, headers: {
       Authorization: response['Authorization']
-    }, params: post_params, as: :json
+    }, params: { post: { image: fixture_file_upload('test.jpeg', 'image/jpeg'), title: 'Test' } }
+
+    post = Post.last
 
     expect(response.status).to eq(200)
-    expect(Post.last.title).to eq(post_params.title)
-    expect(Post.last.type).to eq(post_params.type)
+    expect(post.title).to eq('Test')
+    expect(post.type).to eq('MediaPost')
+    expect(post.image.attached?).to be true
   end
 
   context 'when authorization is missing' do
     it 'returns status 401 with errors' do
       post_url = "/api/v1/communities/#{community.sub_dir}/media_posts"
-      post_params = build(:media_post)
 
-      post post_url, params: post_params, as: :json
+      post post_url, params: { post: { image: fixture_file_upload('test.jpeg', 'image/jpeg'), title: 'Test' } }
 
       expect(response.status).to eq(401)
     end
@@ -32,12 +33,11 @@ RSpec.describe '/POST communities/:id/media_posts', type: :request do
   context 'when attributes invalid' do
     it 'returns status 422 with errors' do
       post_url = "/api/v1/communities/#{community.sub_dir}/media_posts"
-      post_params = build(:media_post, title: nil)
 
       login_with_api(account)
       post post_url, headers: {
         Authorization: response['Authorization']
-      }, params: post_params, as: :json
+      }, params: { post: { title: 'Test' } }
 
       expect(response.status).to eq(422)
     end
