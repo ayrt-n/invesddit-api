@@ -14,4 +14,8 @@ class Account < ApplicationRecord
   def join_community(community)
     memberships.create(community:)
   end
+
+  def communities_friendly_ids
+    communities.pluck(:sub_dir)
+  end
 end

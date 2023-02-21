@@ -14,7 +14,7 @@ RSpec.describe '/GET posts', type: :request do
   context 'when community param included' do
     it 'only includes posts from the specified community' do
       community = create(:community)
-      2.times { create(:post, community: community) }
+      2.times { create(:post, community:) }
       2.times { create(:post) }
       posts_url = "/api/v1/posts?community=#{community.sub_dir}"
 
@@ -22,6 +22,35 @@ RSpec.describe '/GET posts', type: :request do
 
       expect(response.status).to eq(200)
       expect(json['data'].length).to eq(2)
+    end
+  end
+
+  context 'when logged in' do
+    it 'only returns posts for the community the account is a member of' do
+      c1 = create(:community)
+      c2 = create(:community)
+      c3 = create(:community)
+
+      p1 = create(:post, community: c1)
+      p2 = create(:post, community: c2)
+      p3 = create(:post, community: c3)
+
+      account = create(:account)
+      create(:membership, account:, community: c1)
+      create(:membership, account:, community: c2)
+
+      posts_url = '/api/v1/posts'
+      login_with_api(account)
+      get posts_url, headers: {
+        Authorization: response['Authorization']
+      }, as: :json
+
+      posts_result = json['data'].map { |d| d['id'] }
+
+      expect(posts_result.length).to eq(2)
+      expect(posts_result).to include(p1.id)
+      expect(posts_result).to include(p2.id)
+      expect(posts_result).not_to include(p3.id)
     end
   end
 

@@ -8,19 +8,21 @@ module Api
                      .includes(:account, :community)
                      .with_attached_image
 
-        @posts = @posts.filter_by_community(params[:community]) if params[:community]
+        if params[:community]
+          @posts = @posts.filter_by_communities(params[:community])
+        elsif @current_account && params[:filter] != 'all'
+          community_memberships = @current_account.communities_friendly_ids
+          @posts = @posts.filter_by_communities(community_memberships)
+        end
+
         @posts = @posts.send("sort_by_#{sort_by_params}")
 
         @current_account_votes = Vote.where(votable: @posts).where(account: @current_account)
-
-        render :index
       end
 
       def show
         @post = Post.find(params[:id])
         @current_account_vote = Vote.find_by(votable: @post, account: @current_account)
-
-        render :show
       end
 
       def create

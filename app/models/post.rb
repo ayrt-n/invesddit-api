@@ -23,7 +23,7 @@ class Post < ApplicationRecord
   validates :type, presence: true, inclusion: { in: %w[TextPost LinkPost MediaPost] }
 
   # Filtering Scopes
-  scope :filter_by_community, ->(community) { joins(:community).where('communities.sub_dir = ?', community) }
+  scope :filter_by_communities, ->(communities) { joins(:community).where({ communities: { sub_dir: communities } }) }
 
   # Ordering Scopes
   scope :sort_by_best, -> { order(cached_confidence_score: :desc) }
