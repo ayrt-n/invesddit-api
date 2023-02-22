@@ -5,7 +5,7 @@ class Comment < ApplicationRecord
   has_many :comments, as: :commentable
 
   include Votable
-  has_many :votes, as: :votable
+  has_many :votes, as: :votable, dependent: :destroy
 
   before_save :update_cached_rankings, if: :ranking_update_required?
 
