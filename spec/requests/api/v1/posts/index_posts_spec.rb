@@ -1,18 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe '/GET posts', type: :request do
-  it 'returns a list of all posts' do
-    posts_url = '/api/v1/posts'
-    3.times { create(:post) }
+  context 'when not logged in' do
+    it 'returns a list of all posts' do
+      posts_url = '/api/v1/posts'
+      3.times { create(:post) }
 
-    get posts_url, as: :json
+      get posts_url, as: :json
 
-    expect(response.status).to eq(200)
-    expect(json['data'].length).to eq(3)
-  end
+      expect(response.status).to eq(200)
+      expect(json['data'].length).to eq(3)
+    end
 
-  context 'when community param included' do
-    it 'only includes posts from the specified community' do
+    it 'returns only community posts if community param is set' do
       community = create(:community)
       2.times { create(:post, community:) }
       2.times { create(:post) }
@@ -26,31 +26,59 @@ RSpec.describe '/GET posts', type: :request do
   end
 
   context 'when logged in' do
-    it 'only returns posts for the community the account is a member of' do
-      c1 = create(:community)
+    before do
+      @c1 = create(:community)
       c2 = create(:community)
       c3 = create(:community)
 
-      p1 = create(:post, community: c1)
-      p2 = create(:post, community: c2)
-      p3 = create(:post, community: c3)
+      @p1 = create(:post, community: @c1)
+      @p2 = create(:post, community: c2)
+      @p3 = create(:post, community: c3)
 
-      account = create(:account)
-      create(:membership, account:, community: c1)
-      create(:membership, account:, community: c2)
+      @account = create(:account)
+      create(:membership, account: @account, community: @c1)
+      create(:membership, account: @account, community: c2)
+    end
 
+    it 'only returns posts for the community the account is a member of' do
       posts_url = '/api/v1/posts'
-      login_with_api(account)
+
+      login_with_api(@account)
       get posts_url, headers: {
         Authorization: response['Authorization']
       }, as: :json
 
       posts_result = json['data'].map { |d| d['id'] }
 
+      expect(response.status).to eq(200)
       expect(posts_result.length).to eq(2)
-      expect(posts_result).to include(p1.id)
-      expect(posts_result).to include(p2.id)
-      expect(posts_result).not_to include(p3.id)
+      expect(posts_result).to include(@p1.id)
+      expect(posts_result).to include(@p2.id)
+      expect(posts_result).not_to include(@p3.id)
+    end
+
+    it 'returns all posts if filter param set to all' do
+      all_posts_url = '/api/v1/posts?filter=all'
+
+      login_with_api(@account)
+      get all_posts_url, headers: {
+        Authorization: response['Authorization']
+      }, as: :json
+
+      expect(response.status).to eq(200)
+      expect(json['data'].length).to eq(3)
+    end
+
+    it 'returns only community posts if community param is set' do
+      community_posts_url = "/api/v1/posts?community=#{@c1.sub_dir}"
+
+      login_with_api(@account)
+      get community_posts_url, headers: {
+        Authorization: response['Authorization']
+      }, as: :json
+
+      expect(response.status).to eq(200)
+      expect(json['data'].length).to eq(1)
     end
   end
 
