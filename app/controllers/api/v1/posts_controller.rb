@@ -8,13 +8,15 @@ module Api
                      .includes(:account, :community)
                      .with_attached_image
 
-        if params[:community]
-          @posts = @posts.filter_by_communities(params[:community])
-        elsif @current_account && params[:filter] != 'all'
-          community_memberships = @current_account.communities_friendly_ids
-          @posts = @posts.filter_by_communities(community_memberships)
+        # Filter posts to either community (if specified) or current accounts communities
+        # Unless user has specified they want to view all via filter param
+        if params[:community] || (@current_account && params[:filter] != 'all')
+          @posts = @posts.filter_by_communities(
+            params[:community] || @current_account.communities_friendly_ids
+          )
         end
 
+        # Order posts by sort by param - default hot ranking
         @posts = @posts.send("sort_by_#{sort_by_params}")
 
         @current_account_votes = Vote.where(votable: @posts).where(account: @current_account)
