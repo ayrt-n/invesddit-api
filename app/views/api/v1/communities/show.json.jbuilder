@@ -1,4 +1,4 @@
 json.data do
   json.partial! 'api/v1/communities/community', community: @community
-  json.is_member @community.members.include?(@current_account)
+  json.current_role @community.role(@current_account)
 end
