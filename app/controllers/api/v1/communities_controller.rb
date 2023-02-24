@@ -10,8 +10,6 @@ module Api
 
       def show
         @community = Community.friendly.find(params['id'])
-
-        render :show
       end
 
       def create
@@ -31,8 +29,8 @@ module Api
         @community = Community.friendly.find(params['id'])
         return access_denied unless @community.admins.include?(current_account)
 
-        if @community.update(community_params)
-          render_resource(@community)
+        if @community.update(community_update_params)
+          render :show
         else
           unprocessable_entity(@community)
         end
@@ -41,7 +39,11 @@ module Api
       private
 
       def community_params
-        params.require(:community).permit(:sub_dir, :title, :description)
+        params.require(:community).permit(:sub_dir, :title, :description, :avatar, :banner)
+      end
+
+      def community_update_params
+        params.require(:community).permit(:title, :description, :avatar, :banner)
       end
     end
   end
