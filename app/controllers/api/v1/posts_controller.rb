@@ -5,7 +5,7 @@ module Api
 
       def index
         @posts = Post.all
-                     .includes(:account, :community)
+                     .includes(:account, community: [{ avatar_attachment: [:blob] }, { banner_attachment: [:blob] }])
                      .with_attached_image
 
         # Filter posts to either community (if specified) or current accounts communities
