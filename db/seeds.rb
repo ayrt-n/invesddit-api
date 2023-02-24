@@ -16,7 +16,7 @@ communities = Community.all
 posts = Post.all
 
 # Set your fake account to admin for all communities
-communities.each { |c| Membership.create(account: admin, community: c) }
+communities.each { |c| Membership.create(account: admin, community: c, role: 'admin') }
 
 # Create top level comments
 25.times { Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, commentable: posts.sample) }
