@@ -16,4 +16,10 @@ class Community < ApplicationRecord
 
   validates :title, length: { maximum: 20 }
   validates :description, length: { maximum: 500 }
+
+  # Receives account, returns the role ('admin', 'member') or nil
+  # If nil provided, returns nil
+  def role(account)
+    memberships.find_by(account:)&.role
+  end
 end
