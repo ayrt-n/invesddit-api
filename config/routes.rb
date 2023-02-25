@@ -15,7 +15,6 @@ Rails.application.routes.draw do
         end
 
         resources :comments, only: %i[update] do
-          resource :comments, only: %i[create]
           resource :votes, only: %i[create destroy]
         end
       end
