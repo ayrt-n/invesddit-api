@@ -19,10 +19,13 @@ posts = Post.all
 communities.each { |c| Membership.create(account: admin, community: c, role: 'admin') }
 
 # Create top level comments
-25.times { Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, commentable: posts.sample) }
+25.times { Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, post: posts.sample) }
 
 # Create nested comments
-50.times { Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, commentable: Comment.all.sample) }
+50.times do
+  comment = Comment.all.sample
+  Comment.create(body: Faker::Lorem.paragraph(sentence_count: rand(1..20)), account: accounts.sample, post: comment.post, reply_id: comment.id)
+end
 
 # Create votes
 possible_votes = ['upvote', 'upvote', 'upvote', 'downvote']

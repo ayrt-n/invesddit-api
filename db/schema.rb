@@ -74,8 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_17_130146) do
   create_table "comments", force: :cascade do |t|
     t.string "body"
     t.bigint "account_id"
-    t.string "commentable_type"
-    t.bigint "commentable_id"
+    t.bigint "post_id", null: false
+    t.bigint "reply_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "cached_score", default: 0, null: false
@@ -84,7 +84,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_17_130146) do
     t.integer "cached_downvotes", default: 0
     t.float "cached_confidence_score", default: 0.0
     t.index ["account_id"], name: "index_comments_on_account_id"
-    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["reply_id"], name: "index_comments_on_reply_id"
   end
 
   create_table "communities", force: :cascade do |t|
@@ -143,6 +144,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_17_130146) do
   add_foreign_key "account_verification_keys", "accounts", column: "id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "comments", column: "reply_id"
+  add_foreign_key "comments", "posts"
   add_foreign_key "posts", "accounts"
   add_foreign_key "posts", "communities"
   add_foreign_key "votes", "accounts"
