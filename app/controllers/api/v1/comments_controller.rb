@@ -2,25 +2,25 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :authenticate, only: %i[create update]
-      before_action :set_commentable, only: %i[create]
 
       def index
         @comments = Post.find(params[:post_id]).comments.includes(:account)
         @comments = @comments.send("sort_by_#{sort_by_params}")
 
-        render :index
+        @current_account_votes = Vote.where(votable: @comments).where(account: @current_account)
+        @comments = @comments.group_by(&:reply_id)
       end
 
       def create
-        @comment = @commentable.comments.build(
-          comment_params.merge({ account_id: current_account.id })
-        )
+        @comment = Post.find(params[:post_id])
+                       .comments
+                       .build(
+                         comment_params.merge(
+                           { account_id: current_account.id }
+                         )
+                       )
 
-        if @comment.save
-          render :show
-        else
-          unprocessable_entity(@comment)
-        end
+        unprocessable_entity(@comment) unless @comment.save
       end
 
       def update
@@ -36,12 +36,8 @@ module Api
 
       private
 
-      def set_commentable
-        @commentable = params[:post_id] ? Post.find(params[:post_id]) : Comment.find(params[:comment_id])
-      end
-
       def comment_params
-        params.require(:comment).permit(:body)
+        params.require(:comment).permit(:body, :reply_id)
       end
 
       def sort_by_params
