@@ -1,19 +1,34 @@
 require 'rails_helper'
 
-RSpec.describe '/POST /:commentable/:commentable_id/comments', type: :request do
-  it 'creates comment belonging to commentable' do
+RSpec.describe '/POST /posts/:post_id/comments', type: :request do
+  it 'creates top-level comment belonging to post' do
     post = create(:post)
-    comment = build(:comment)
     account = create(:account, :verified)
     comments_url = "/api/v1/posts/#{post.id}/comments"
 
     login_with_api(account)
     post comments_url, headers: {
       Authorization: response['Authorization']
-    }, params: comment, as: :json
+    }, params: { body: 'Test comment' }, as: :json
 
     expect(response.status).to eq(200)
-    expect(Comment.all.count).to eq(1)
+    expect(post.comments.count).to eq(1)
+  end
+
+  it 'creates reply if reply_id param included' do
+    post = create(:post)
+    top_level_comment = create(:comment, post:)
+    account = create(:account, :verified)
+    comments_url = "/api/v1/posts/#{post.id}/comments"
+
+    login_with_api(account)
+    post comments_url, headers: {
+      Authorization: response['Authorization']
+    }, params: { body: 'Test comment', reply_id: top_level_comment.id },
+    as: :json
+
+    expect(response.status).to eq(200)
+    expect(top_level_comment.replies.count).to eq(1)
   end
 
   context 'when authorization header missing' do
@@ -31,10 +46,10 @@ RSpec.describe '/POST /:commentable/:commentable_id/comments', type: :request do
 
   context 'when invalid attributes' do
     it 'returns status 422 with errors' do
-      parent_comment = create(:comment, :for_post)
-      comment = build(:comment, body: nil)
+      post = create(:post)
+      comment = build(:comment, post:, body: nil)
       account = create(:account, :verified)
-      comments_url = "/api/v1/comments/#{parent_comment.id}/comments"
+      comments_url = "/api/v1/posts/#{post.id}/comments"
 
       login_with_api(account)
       post comments_url, headers: {

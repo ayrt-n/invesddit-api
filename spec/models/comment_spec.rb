@@ -9,11 +9,11 @@ RSpec.describe Comment, type: :model do
     it 'increments Post comment count' do
       # Create post and comments/nested comments
       post = create(:post)
-      comment = create(:comment, commentable: post)
-      nested_comment = create(:comment, commentable: comment)
-      create(:comment, commentable: post)
-      create(:comment, commentable: comment)
-      create(:comment, commentable: nested_comment)
+      comment = create(:comment, post:)
+      nested_comment = create(:comment, post:, reply_id: comment.id)
+      create(:comment, post:)
+      create(:comment, post:, reply_id: comment.id)
+      create(:comment, post:, reply_id: nested_comment.id)
 
       expect(post.comments_count).to eq(5)
     end
@@ -22,8 +22,8 @@ RSpec.describe Comment, type: :model do
   context 'after destroy' do
     it 'decrements Post comment count' do
       post = create(:post)
-      comment = create(:comment, commentable: post)
-      create(:comment, commentable: post)
+      comment = create(:comment, post:)
+      create(:comment, post:)
       comment.destroy
 
       expect(post.comments_count).to eq(1)
