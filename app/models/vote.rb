@@ -11,7 +11,7 @@ class Vote < ApplicationRecord
   after_destroy :update_votable_on_destroy
 
   # Query all votes by select users
-  scope :find_by_votables_and_account, ->(votables, account) { where(votable: votables).where(account:) }
+  scope :for_votables_and_account, ->(votables, account) { where(votable: votables).where(account:) }
 
   # Increment/decrement votable score following creation, depending on up/downvote
   def update_votable_on_create

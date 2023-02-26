@@ -36,7 +36,7 @@ RSpec.describe Vote, type: :model do
     end
   end
 
-  describe '#find_by_votables_and_account' do
+  describe '#for_votables_and_account' do
     context 'when votes exist' do
       it 'returns all votes by votables and account' do
         account = create(:account)
@@ -44,7 +44,7 @@ RSpec.describe Vote, type: :model do
         3.times { votables << create(:vote, account:).votable }
         2.times { create(:vote, account:) }
 
-        result = Vote.find_by_votables_and_account(votables, account)
+        result = Vote.for_votables_and_account(votables, account)
 
         expect(result.length).to eq(3)
       end

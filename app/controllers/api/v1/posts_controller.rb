@@ -19,7 +19,8 @@ module Api
         # Order posts by sort by param - default hot ranking
         @posts = @posts.send("sort_by_#{sort_by_params}")
 
-        @current_account_votes = Vote.where(votable: @posts).where(account: @current_account)
+        # Get all votes by the current account for the posts queried
+        @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)
       end
 
       def show

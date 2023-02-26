@@ -7,7 +7,10 @@ module Api
         @comments = Post.find(params[:post_id]).comments.includes(:account)
         @comments = @comments.send("sort_by_#{sort_by_params}")
 
-        @current_account_votes = Vote.where(votable: @comments).where(account: @current_account)
+        # Get all votes by the current account for the comments queried
+        @current_account_votes = Vote.for_votables_and_account(@comments, @current_account)
+
+        # Group comments by reply_id to work with top-level and nested comments in view
         @comments = @comments.group_by(&:reply_id)
       end
 
