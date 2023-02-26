@@ -10,6 +10,9 @@ class Vote < ApplicationRecord
   after_update :update_votable_on_update
   after_destroy :update_votable_on_destroy
 
+  # Query all votes by select users
+  scope :find_by_votables_and_account, ->(votables, account) { where(votable: votables).where(account:) }
+
   # Increment/decrement votable score following creation, depending on up/downvote
   def update_votable_on_create
     vote_type == 'upvote' ? votable.increment(:cached_upvotes) : votable.increment(:cached_downvotes)

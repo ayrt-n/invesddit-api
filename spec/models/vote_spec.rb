@@ -35,4 +35,19 @@ RSpec.describe Vote, type: :model do
       expect(upvote.votable.cached_score).to eq(0)
     end
   end
+
+  describe '#find_by_votables_and_account' do
+    context 'when votes exist' do
+      it 'returns all votes by votables and account' do
+        account = create(:account)
+        votables = []
+        3.times { votables << create(:vote, account:).votable }
+        2.times { create(:vote, account:) }
+
+        result = Vote.find_by_votables_and_account(votables, account)
+
+        expect(result.length).to eq(3)
+      end
+    end
+  end
 end
