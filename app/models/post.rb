@@ -1,10 +1,11 @@
 class Post < ApplicationRecord
   belongs_to :account
   belongs_to :community
-
   has_one_attached :image, dependent: :destroy
-
   has_many :comments, dependent: :destroy
+
+  validates :title, presence: true, length: { maximum: 300 }
+  validates :type, presence: true, inclusion: { in: %w[TextPost LinkPost MediaPost] }
 
   include Votable
   has_many :votes, as: :votable, dependent: :destroy
@@ -18,9 +19,6 @@ class Post < ApplicationRecord
     self.cached_hot_rank = rank.hot_rank
     self.cached_confidence_score = rank.confidence_score
   end
-
-  validates :title, presence: true, length: { maximum: 300 }
-  validates :type, presence: true, inclusion: { in: %w[TextPost LinkPost MediaPost] }
 
   # Filtering Scopes
   scope :filter_by_communities, ->(communities) { joins(:community).where({ communities: { sub_dir: communities } }) }
