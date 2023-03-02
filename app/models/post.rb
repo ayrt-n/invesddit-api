@@ -28,6 +28,8 @@ class Post < ApplicationRecord
 
   # Filtering Scopes
   scope :filter_by_communities, ->(communities) { joins(:community).where({ communities: { sub_dir: communities } }) }
+  scope :all_communities, -> { unscope(where: 'communities.sub_dir') }
+  scope :filter_by_account, ->(account) { where({ account: }) }
 
   # Ordering Scopes
   scope :sort_by_best, -> { order(cached_confidence_score: :desc) }
