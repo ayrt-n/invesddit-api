@@ -1,24 +1,25 @@
 class PostFeedQuery
   attr_reader :posts, :current_account
 
-  def initialize(posts = Post.all, current_account = nil)
-    @posts = posts.include_feed_associations
+  def initialize(posts: Post.all, current_account: nil)
+    @posts = posts
     @current_account = current_account
   end
 
-  def call(params = {})
-    scope = by_community(posts, params)
-    scope = by_account(scope, params[:account])
-    scope = sort_by(scope, params[:sort_by])
+  # Filter, sort, and return posts feed
+  def build_feed(params = {})
+    feed = filter_by_community(posts, params)
+    feed = filter_by_account(feed, params[:account_id])
+    feed = sort_by(feed, params[:sort_by])
   end
 
   # Filter posts by communities:
   # If community specified, only return posts for the community
   # Else if filter == all or not logged in, return posts for all communities
   # Else return posts for the current accounts followed communities
-  def by_community(scope, params)
-    if params[:community]
-      scope.filter_by_communities(params[:community])
+  def filter_by_community(scope, params)
+    if params[:community_id]
+      scope.filter_by_communities(params[:community_id])
     elsif params[:filter] == 'all' || !current_account
       scope.all_communities
     else
@@ -40,9 +41,7 @@ class PostFeedQuery
   end
 
   # Filter posts by account if specified
-  def by_account(scope, account)
-    return scope unless account
-
-    scope.filter_by_account(account)
+  def filter_by_account(scope, account)
+    account ? scope.filter_by_account(account) : scope
   end
 end

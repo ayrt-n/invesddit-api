@@ -4,10 +4,18 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
 
       def index
-        # Query for post feed
+        # Query for and build posts index feed
         @posts = PostFeedQuery
-                 .new(Post.all, @current_account)
-                 .call(params.slice(:community, :account, :sort_by, :filter))
+                 .new(
+                   posts: Post.all.include_feed_associations,
+                   current_account: @current_account
+                 )
+                 .build_feed(params.slice(
+                               :community_id,
+                               :account_id,
+                               :sort_by,
+                               :filter
+                             ))
 
         # Get all votes by the current account for the posts queried
         @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)
