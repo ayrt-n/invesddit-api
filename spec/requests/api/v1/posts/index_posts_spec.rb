@@ -16,9 +16,9 @@ RSpec.describe '/GET posts', type: :request do
       community = create(:community)
       2.times { create(:post, community:) }
       2.times { create(:post) }
-      posts_url = "/api/v1/posts?community=#{community.sub_dir}"
+      community_posts_url = "/api/v1/communities/#{community.sub_dir}/posts"
 
-      get posts_url, as: :json
+      get community_posts_url, as: :json
 
       expect(response.status).to eq(200)
       expect(json['data'].length).to eq(2)
@@ -70,7 +70,7 @@ RSpec.describe '/GET posts', type: :request do
     end
 
     it 'returns only community posts if community param is set' do
-      community_posts_url = "/api/v1/posts?community=#{@c1.sub_dir}"
+      community_posts_url = "/api/v1/communities/#{@c1.sub_dir}/posts"
 
       login_with_api(@account)
       get community_posts_url, headers: {
