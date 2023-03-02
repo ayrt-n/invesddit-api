@@ -4,20 +4,10 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
 
       def index
-        @posts = Post.all
-                     .includes(:account, community: [{ avatar_attachment: [:blob] }, { banner_attachment: [:blob] }])
-                     .with_attached_image
-
-        # Filter posts to either community (if specified) or current accounts communities
-        # Unless user has specified they want to view all via filter param
-        if params[:community] || (@current_account && params[:filter] != 'all')
-          @posts = @posts.filter_by_communities(
-            params[:community] || @current_account.communities_friendly_ids
-          )
-        end
-
-        # Order posts by sort by param - default hot ranking
-        @posts = @posts.send("sort_by_#{sort_by_params}")
+        # Query for post feed
+        @posts = PostFeedQuery
+                 .new(Post.all, @current_account)
+                 .call(params.slice(:community, :account, :sort_by, :filter))
 
         # Get all votes by the current account for the posts queried
         @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)
@@ -70,14 +60,6 @@ module Api
 
       def post_params
         params.require(:post).permit(:title, :body, :image)
-      end
-
-      def sort_by_params
-        # Return specified sort_by param if whitelisted
-        return params[:sort_by] if %w[hot new top].include?(params[:sort_by])
-
-        # Otherwise return default to sort by hot
-        'hot'
       end
     end
   end
