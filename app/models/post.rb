@@ -20,6 +20,12 @@ class Post < ApplicationRecord
     self.cached_confidence_score = rank.confidence_score
   end
 
+  # Eager load associations needed to display feed and avoid n+1 problem
+  scope :include_feed_associations, lambda {
+    includes(:account, community: [{ avatar_attachment: [:blob] }, { banner_attachment: [:blob] }])
+      .with_attached_image
+  }
+
   # Filtering Scopes
   scope :filter_by_communities, ->(communities) { joins(:community).where({ communities: { sub_dir: communities } }) }
 
