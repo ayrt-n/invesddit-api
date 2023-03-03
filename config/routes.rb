@@ -19,9 +19,11 @@ Rails.application.routes.draw do
           resource :votes, only: %i[create destroy]
         end
 
-        resources :accounts do
+        resources :accounts, only: %i[index show] do
           resources :posts, only: :index
         end
+
+        resource :account, only: %i[update edit]
       end
     end
   end
