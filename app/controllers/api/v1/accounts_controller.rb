@@ -3,6 +3,10 @@ module Api
     class AccountsController < ApplicationController
       before_action :authenticate, only: %i[edit update]
 
+      def show
+        @account = Account.friendly.find(params[:id])
+      end
+
       def edit
         @current_account
       end

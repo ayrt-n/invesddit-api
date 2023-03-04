@@ -2,6 +2,9 @@ class Account < ApplicationRecord
   include Rodauth::Rails.model
   enum :status, unverified: 1, verified: 2, closed: 3
 
+  extend FriendlyId
+  friendly_id :username
+
   validates :username, presence: true
   validates :username, length: { in: 3..20 }
   validates :username, format: { without: /\W/ }
