@@ -18,11 +18,7 @@ module Api
         @community.memberships.build(account_id: current_account.id, role: 'admin')
 
         # If save successul render community, else render errors
-        if @community.save
-          render_resource(@community)
-        else
-          unprocessable_entity(@community)
-        end
+        unprocessable_entity(@community) unless @community.save
       end
 
       def update
