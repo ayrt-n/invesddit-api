@@ -23,7 +23,9 @@ Rails.application.routes.draw do
           resources :posts, only: :index
         end
 
-        resource :account, only: %i[update edit]
+        resource :account, only: %i[update edit] do
+          get 'communities', to: 'accounts#communities'
+        end
       end
     end
   end

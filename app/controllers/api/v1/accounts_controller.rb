@@ -19,6 +19,10 @@ module Api
         end
       end
 
+      def communities
+        @communities = @current_account.communities.includes(:avatar_attachment, :banner_attachment)
+      end
+
       private
 
       def account_params
