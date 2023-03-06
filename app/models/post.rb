@@ -22,7 +22,10 @@ class Post < ApplicationRecord
 
   # Eager load associations needed to display feed and avoid n+1 problem
   scope :include_feed_associations, lambda {
-    includes(:account, community: [{ avatar_attachment: [:blob] }, { banner_attachment: [:blob] }])
+    includes(
+      account: [{ avatar_attachment: [:blob] }],
+      community: [{ avatar_attachment: [:blob] }, { banner_attachment: [:blob] }]
+    )
       .with_attached_image
   }
 
