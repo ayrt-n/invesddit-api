@@ -5,17 +5,18 @@ module Api
 
       def index
         # Query for and build posts index feed
-        @posts = PostFeedQuery
+        @posts = PostFeed
                  .new(
-                   posts: Post.all.include_feed_associations,
-                   current_account: @current_account
+                   collection: Post.all.include_feed_associations,
+                   current_account: @current_account,
+                   strategy: feed_strategy
                  )
-                 .build_feed(params.slice(
-                               :community_id,
-                               :account_id,
-                               :sort_by,
-                               :filter
-                             ))
+                 .build(params.slice(
+                          :community_id,
+                          :account_id,
+                          :sort_by,
+                          :filter
+                        ))
 
         # Get all votes by the current account for the posts queried
         @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)
@@ -66,8 +67,21 @@ module Api
 
       private
 
+      # Allowlist post parameters for create/update
       def post_params
         params.require(:post).permit(:title, :body, :image)
+      end
+
+      # Determine correct query strategy for building post index feed
+      def feed_strategy
+        case params[:strategy]
+        when 'community'
+          CommunityFeedQuery.new
+        when 'account'
+          ProfileFeedQuery.new
+        else
+          HomeFeedQuery.new
+        end
       end
     end
   end
