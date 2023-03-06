@@ -24,7 +24,7 @@ class RodauthMain < Rodauth::Rails::Auth
     only_json? true
 
     # Handle login and password confirmation fields on the client side.
-    # require_password_confirmation? false
+    require_password_confirmation? true
     # require_login_confirmation? false
 
     # Specify the controller used for view rendering and CSRF verification.
@@ -96,8 +96,9 @@ class RodauthMain < Rodauth::Rails::Auth
 
     # ==> Validation
     # Override default validation error messages.
-    # no_matching_login_message "user with this email address doesn't exist"
-    # already_an_account_with_this_login_message "user with this email address already exists"
+    no_matching_login_message 'Incorrect email or password'
+    invalid_password_message 'Incorrect email or password'
+    already_an_account_with_this_login_message 'User with this email address already exists'
     # password_too_short_message { "needs to have at least #{password_minimum_length} characters" }
     # login_does_not_meet_requirements_message { "invalid email#{", #{login_requirement_message}" if login_requirement_message}" }
 
@@ -114,19 +115,19 @@ class RodauthMain < Rodauth::Rails::Auth
       username = param_or_nil('username')
 
       # Confirm username provided
-      throw_error_status(422, 'username', 'must be present') unless username
+      throw_error_status(422, 'username', 'Username must be present') unless username
 
       # Check if username already taken
-      throw_error_status(422, 'username', 'is already taken') if Account.find_by(username: username)
+      throw_error_status(422, 'username', 'Username is already taken') if Account.find_by(username: username)
 
       # Check valid username length
       if username && !username.length.between?(min_name_length, max_name_length)
-        throw_error_status(422, 'username', "must be between #{min_name_length} and #{max_name_length} characters")
+        throw_error_status(422, 'username', "Username must be between #{min_name_length} and #{max_name_length} characters")
       end
 
       # Check valid username characters
       if !username || username.match?(/\W/)
-        throw_error_status(422, 'username', 'must only include letters, numbers, or underscore')
+        throw_error_status(422, 'username', 'Username must only include letters, numbers, or underscore')
       end
 
       # Set account username and created_at
