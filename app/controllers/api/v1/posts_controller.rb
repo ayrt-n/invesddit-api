@@ -5,11 +5,10 @@ module Api
 
       def index
         # Query for and build posts index feed
-        @posts = PostFeed
+        @posts = feed_strategy
                  .new(
                    collection: Post.all.include_feed_associations,
-                   current_account: @current_account,
-                   strategy: feed_strategy
+                   current_account: @current_account
                  )
                  .build(params.slice(
                           :community_id,
@@ -76,11 +75,11 @@ module Api
       def feed_strategy
         case params[:strategy]
         when 'community'
-          CommunityFeedQuery.new
+          CommunityFeedQuery
         when 'account'
-          ProfileFeedQuery.new
+          ProfileFeedQuery
         else
-          HomeFeedQuery.new
+          HomeFeedQuery
         end
       end
     end

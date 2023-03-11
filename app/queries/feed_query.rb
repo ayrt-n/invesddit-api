@@ -1,5 +1,13 @@
 # Abstract FeedQuery Strategy Interface
 class FeedQuery
+  attr_reader :collection, :current_account
+
+  # Initialize with collection (default all Posts) and a strategy (default HomeFeedQuery)
+  def initialize(collection: Post.all, current_account: nil)
+    @collection = collection
+    @current_account = current_account
+  end
+
   def build(_collection, _current_account, _params)
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
   end
