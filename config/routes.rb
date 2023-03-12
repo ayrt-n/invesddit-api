@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         resource :account, only: %i[update edit] do
           get 'communities', to: 'accounts#communities'
         end
+
+        resource :search, only: :show
       end
     end
   end
