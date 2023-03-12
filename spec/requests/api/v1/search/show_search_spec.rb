@@ -46,4 +46,24 @@ RSpec.describe '/GET search', type: :request do
       expect(a_results).not_to include(a2.id, a3.id)
     end
   end
+
+  context 'when no search results found' do
+    it 'returns empty array for posts, communities, and accounts' do
+      search_string = 'search'
+      search_url = "/api/v1/search/?q=#{search_string}"
+
+      create(:post, title: 'No match')
+
+      get search_url, as: :json
+
+      p_results = json['data']['posts'].map { |d| d['id'] }
+      c_results = json['data']['communities'].map { |d| d['id'] }
+      a_results = json['data']['accounts'].map { |d| d['id'] }
+
+      expect(response.status).to eq(200)
+      expect(p_results).to eq([])
+      expect(c_results).to eq([])
+      expect(a_results).to eq([])
+    end
+  end
 end
