@@ -9,6 +9,7 @@ FactoryBot.define do
     body { Faker::Lorem.paragraph }
     cached_score { 0 }
     cached_hot_rank { 0 }
+    status { 'published' }
 
     # Make text post by default
     type { 'TextPost' }

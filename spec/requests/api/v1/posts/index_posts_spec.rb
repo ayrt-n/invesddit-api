@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe '/GET posts', type: :request do
   context 'when not logged in' do
-    it 'returns a list of all posts' do
+    it 'returns a list of all published posts' do
       posts_url = '/api/v1/posts'
       3.times { create(:post) }
+      2.times { create(:post, status: 'deleted') }
 
       get posts_url, as: :json
 

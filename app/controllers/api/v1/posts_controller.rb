@@ -7,7 +7,7 @@ module Api
         # Query for and build posts index feed
         @posts = feed_strategy
                  .new(
-                   collection: Post.all.include_feed_associations,
+                   collection: Post.published.include_feed_associations,
                    current_account: @current_account
                  )
                  .build(params.slice(
@@ -57,7 +57,7 @@ module Api
         @post = Post.find(params[:id])
         return access_denied unless @post.account == @current_account
 
-        if @post.destroy
+        if @post.deleted!
           head :no_content
         else
           unprocessable_entity(@post)

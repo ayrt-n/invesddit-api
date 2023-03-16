@@ -8,13 +8,14 @@ RSpec.describe '/DELETE posts/:id', type: :request do
 
     login_with_api(account)
     delete post_url, headers: { Authorization: response['Authorization'] }, as: :json
+    result = Post.find(post.id)
 
     expect(response.status).to eq(204)
-    expect(Post.exists?(post.id)).to eq(false)
+    expect(result.status).to eq('deleted')
   end
 
   context 'when authorization header is missing' do
-    it 'returns status 401 with errors' do
+    it 'returns status 401' do
       post = create(:post)
       post_url = "/api/v1/posts/#{post.id}"
 
@@ -25,7 +26,7 @@ RSpec.describe '/DELETE posts/:id', type: :request do
   end
 
   context 'when request not made by post author' do
-    it 'returns status 401 with errors' do
+    it 'returns status 401' do
       account = create(:account, :verified)
       post = create(:post)
       post_url = "/api/v1/posts/#{post.id}"

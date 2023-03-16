@@ -5,6 +5,10 @@ json.data do
 
   # Posts Author (Account) Data
   json.account do
-    json.partial! 'api/v1/accounts/account', account: @post.account
+    if @post.deleted?
+      nil
+    else
+      json.partial! 'api/v1/accounts/account', account: @post.account
+    end
   end
 end
