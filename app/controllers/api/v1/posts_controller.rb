@@ -31,7 +31,7 @@ module Api
         @post = @community
                 .posts
                 .build(
-                  post_params.merge(
+                  create_post_params.merge(
                     {
                       account_id: @current_account.id,
                       type: params[:type]
@@ -46,8 +46,8 @@ module Api
         @post = Post.find(params[:id])
         return access_denied unless @post.account == @current_account
 
-        if @post.update(post_params)
-          render :show
+        if @post.update(update_post_params)
+          render partial: '/api/v1/posts/post', locals: { post: @post }
         else
           unprocessable_entity(@post)
         end
@@ -66,9 +66,14 @@ module Api
 
       private
 
-      # Allowlist post parameters for create/update
-      def post_params
+      # Allowlist for post create parameters
+      def create_post_params
         params.require(:post).permit(:title, :body, :image)
+      end
+
+      # Allowlist for post update parameters
+      def update_post_params
+        params.require(:post).permit(:body)
       end
 
       # Determine correct query strategy for building post index feed
