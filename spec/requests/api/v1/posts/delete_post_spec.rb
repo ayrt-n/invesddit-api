@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '/DELETE posts/:id', type: :request do
-  it 'deletes the post' do
+  it 'softly deletes the post' do
     account = create(:account, :verified)
     post = create(:post, account: account)
     post_url = "/api/v1/posts/#{post.id}"
