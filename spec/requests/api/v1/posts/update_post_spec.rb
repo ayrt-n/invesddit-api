@@ -9,10 +9,10 @@ RSpec.describe '/PATCH posts/:id', type: :request do
     login_with_api(account)
     patch post_url, headers: {
       Authorization: response['Authorization']
-    }, params: { post: { title: 'UPDATED POST' } }, as: :json
+    }, params: { post: { body: 'UPDATED POST' } }, as: :json
 
     expect(response.status).to eq(200)
-    expect(Post.find(post.id).title).to eq('UPDATED POST')
+    expect(Post.find(post.id).body).to eq('UPDATED POST')
   end
 
   context 'when authorization header missing' do
