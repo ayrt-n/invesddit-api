@@ -1,9 +1,10 @@
 # Comment Data
 json.id comment.id
 json.post_id comment.post_id
-json.body comment.body
+json.body comment.deleted? ? '[removed]' : comment.body
 json.score comment.cached_score
 json.created_at comment.created_at
+json.status comment.status
 
 # Use cached @current_account_votes if provided,
 # Otherwise, check and render vote type for @current_account
@@ -13,9 +14,13 @@ else
   json.vote_status comment.vote_type_by_account(@current_account)
 end
 
-# Comment Author (Account) Data
+# Comment Author (Account) Data (if deleted return nil)
 json.account do
-  json.partial! 'api/v1/accounts/account', account: comment.account
+  if comment.deleted?
+    nil
+  else
+    json.partial! 'api/v1/accounts/account', account: comment.account
+  end
 end
 
 # Nested Comments Data

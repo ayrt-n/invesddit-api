@@ -37,6 +37,17 @@ module Api
         end
       end
 
+      def destroy
+        @comment = Comment.find(params[:id])
+        return access_denied unless @comment.account == @current_account
+
+        if @comment.deleted!
+          head :no_content
+        else
+          unprocessable_entity(@comment)
+        end
+      end
+
       private
 
       def comment_params

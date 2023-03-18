@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  enum status: { published: 'published', deleted: 'deleted' }
+
   belongs_to :post, counter_cache: true
   belongs_to :account
 

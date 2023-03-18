@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_14_110335) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_17_104837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "comments_status", ["published", "deleted"]
   create_enum "posts_status", ["published", "deleted"]
 
   create_table "account_login_change_keys", force: :cascade do |t|
@@ -87,9 +88,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_14_110335) do
     t.integer "cached_upvotes", default: 0
     t.integer "cached_downvotes", default: 0
     t.float "cached_confidence_score", default: 0.0
+    t.enum "status", default: "published", enum_type: "comments_status"
     t.index ["account_id"], name: "index_comments_on_account_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["reply_id"], name: "index_comments_on_reply_id"
+    t.index ["status"], name: "index_comments_on_status"
   end
 
   create_table "communities", force: :cascade do |t|
