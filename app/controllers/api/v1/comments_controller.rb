@@ -18,20 +18,24 @@ module Api
         @comment = Post.find(params[:post_id])
                        .comments
                        .build(
-                         comment_params.merge(
+                         create_comment_params.merge(
                            { account_id: current_account.id }
                          )
                        )
 
-        unprocessable_entity(@comment) unless @comment.save
+        if @comment.save
+          render partial: 'api/v1/comments/comment', locals: { comment: @comment }
+        else
+          unprocessable_entity(@comment)
+        end
       end
 
       def update
         @comment = Comment.find(params[:id])
         return access_denied unless @comment.account == current_account
 
-        if @comment.update(comment_params)
-          render_resource(@comment)
+        if @comment.update(update_comment_params)
+          render partial: 'api/v1/comments/comment', locals: { comment: @comment }
         else
           unprocessable_entity(@comment)
         end
@@ -50,8 +54,12 @@ module Api
 
       private
 
-      def comment_params
+      def create_comment_params
         params.require(:comment).permit(:body, :reply_id)
+      end
+
+      def update_comment_params
+        params.require(:comment).permit(:body)
       end
 
       def sort_by_params
