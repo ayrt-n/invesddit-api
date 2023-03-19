@@ -4,8 +4,12 @@ module Api
       before_action :authenticate, only: %i[create update]
 
       def index
-        @communities = Community.all
-        render_resource(@communities)
+        params[:q] ||= ''
+
+        @communities = Community.where('sub_dir ILIKE ?', "%#{Community.sanitize_sql_like(params[:q])}%")
+                                .limit(5)
+                                .with_attached_avatar
+                                .with_attached_banner
       end
 
       def show
