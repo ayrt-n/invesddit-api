@@ -17,6 +17,41 @@ RSpec.describe Comment, type: :model do
 
       expect(post.comments_count).to eq(5)
     end
+
+    it 'notifies post and comment authors' do
+      post = create(:post)
+      comment = create(:comment, post:)
+      create(:comment, post:, comment:)
+
+      post_reply_notification = Notification.where(account: post.account)
+      comment_reply_notification = Notification.where(account: comment.account)
+
+      expect(post_reply_notification.count).to eq(2)
+      expect(comment_reply_notification.count).to eq(1)
+    end
+
+    it 'does not create notifications if post/comment deleted' do
+      post = create(:post, status: 'deleted')
+      comment = create(:comment, post:, status: 'deleted')
+      create(:comment, post:, comment:)
+
+      post_reply_notification = Notification.where(account: post.account)
+      comment_reply_notification = Notification.where(account: comment.account)
+
+      expect(post_reply_notification.count).to eq(0)
+      expect(comment_reply_notification.count).to eq(0)
+    end
+
+    it 'does not notify the author if they are also the commentor' do
+      account = create(:account)
+      post = create(:post, account:)
+      comment = create(:comment, post:, account:)
+      create(:comment, post:, comment:, account:)
+
+      notifications = Notification.where(account:)
+
+      expect(notifications.count).to eq(0)
+    end
   end
 
   context 'after destroy' do

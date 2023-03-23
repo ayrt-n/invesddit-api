@@ -4,8 +4,8 @@ class Comment < ApplicationRecord
   belongs_to :post, counter_cache: true
   belongs_to :account
 
-  has_many :replies, class_name: 'Comment',
-                     foreign_key: 'reply_id'
+  has_many :replies, class_name: 'Comment', foreign_key: 'reply_id'
+  belongs_to :comment, foreign_key: 'reply_id', optional: true
 
   include Votable
   has_many :votes, as: :votable, dependent: :destroy
@@ -27,6 +27,41 @@ class Comment < ApplicationRecord
   scope :sort_by_top, -> { order(cached_score: :desc) }
 
   validates :body, presence: true
+
+  include Notifiable
+  after_create :create_notifications
+
+  # After create, create comment notifications
+  def create_notifications
+    create_reply_notification
+    create_post_notification
+  end
+
+  # If the comment is a reply to another comment, notify the comment author this is in response to
+  def create_reply_notification
+    # Do not notify if comment is not published or the comment author is the account replying
+    return unless comment&.published?
+    return if comment.account == account
+
+    notify(
+      notifiable: self,
+      account: comment.account,
+      message: "u/#{account.username} replied to your comment in c/#{post.community.sub_dir}"
+    )
+  end
+
+  # Notify the original post author of a comment
+  def create_post_notification
+    # Do not notify if post is not published or the post author is the account repling
+    return unless post&.published?
+    return if post.account == account
+
+    notify(
+      notifiable: self,
+      account: post.account,
+      message: "u/#{account.username} replied to your post in c/#{post.community.sub_dir}"
+    )
+  end
 
   private
 

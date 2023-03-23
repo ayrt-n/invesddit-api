@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_17_104837) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_19_135844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_104837) do
     t.string "password_hash"
     t.string "username"
     t.datetime "created_at", null: false
+    t.integer "unread_notification_count", default: 0, null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, where: "(status = ANY (ARRAY[1, 2]))"
     t.index ["username"], name: "index_accounts_on_username"
   end
@@ -116,6 +117,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_104837) do
     t.index ["community_id"], name: "index_memberships_on_community_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.string "message"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -155,6 +168,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_104837) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "comments", column: "reply_id"
   add_foreign_key "comments", "posts"
+  add_foreign_key "notifications", "accounts"
   add_foreign_key "posts", "accounts"
   add_foreign_key "posts", "communities"
   add_foreign_key "votes", "accounts"
