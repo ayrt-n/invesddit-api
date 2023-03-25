@@ -3,6 +3,10 @@ class Notification < ApplicationRecord
   belongs_to :notifiable, polymorphic: true
 
   scope :unread, -> { where(read: false) }
+  scope :by_newest, -> { order(created_at: :desc) }
+
+  extend Paginator
+  paginates_per_page 10
 
   # On create, increment unread notification count unless it has been read
   # Would typically not see a notification created as read, but it is helpful for testing

@@ -18,6 +18,10 @@ class Account < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
   has_one_attached :banner, dependent: :destroy
 
+  # Pagination related functionality
+  extend Paginator
+  paginates_per_page 10
+
   # Join community, i.e., create a membership
   def join_community(community)
     memberships.create(community:)
