@@ -30,7 +30,7 @@ Rails.application.routes.draw do
         resources :notifications, only: %i[index update]
         patch '/notifications', to: 'notifications#read_all'
 
-        resource :search, only: :shows
+        resource :search, only: :show
       end
     end
   end
