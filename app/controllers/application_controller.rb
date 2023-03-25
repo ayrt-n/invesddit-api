@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
     }, status: :unauthorized
   end
 
+  def sanitize_pagination_params
+    params[:page] = params[:page].to_i if params[:page]
+    params[:limit] = params[:limit].to_i if params[:limit]
+  end
+
   private
 
   def set_current_account

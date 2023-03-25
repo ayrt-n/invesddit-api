@@ -2,6 +2,7 @@ module Api
   module V1
     class PostsController < ApplicationController
       before_action :authenticate, only: %i[create update destroy]
+      before_action :sanitize_pagination_params, only: :index
 
       def index
         # Query for and build posts index feed
@@ -16,6 +17,7 @@ module Api
                           :sort_by,
                           :filter
                         ))
+                 .page(params[:page], params[:limit])
 
         # Get all votes by the current account for the posts queried
         @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)

@@ -2,9 +2,12 @@ module Api
   module V1
     class NotificationsController < ApplicationController
       before_action :authenticate
+      before_action :sanitize_pagination_params, only: :index
 
       def index
-        @notifications = @current_account.notifications.order(created_at: :desc).limit(5)
+        @notifications = @current_account.notifications
+                                         .order(created_at: :desc)
+                                         .page(params[:page], params[:limit])
       end
 
       def update
