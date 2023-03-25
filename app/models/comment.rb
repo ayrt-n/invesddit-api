@@ -21,10 +21,10 @@ class Comment < ApplicationRecord
   end
 
   # Ordering Scopes
-  scope :sort_by_best, -> { order(cached_confidence_score: :desc) }
-  scope :sort_by_hot, -> { order(cached_hot_rank: :desc) }
-  scope :sort_by_new, -> { order(created_at: :desc) }
-  scope :sort_by_top, -> { order(cached_score: :desc) }
+  scope :sort_by_best, -> { order(cached_confidence_score: :desc, id: :desc) }
+  scope :sort_by_hot, -> { order(cached_hot_rank: :desc, id: :desc) }
+  scope :sort_by_new, -> { order(created_at: :desc, id: :desc) }
+  scope :sort_by_top, -> { order(cached_score: :desc, id: :desc) }
 
   validates :body, presence: true
 
