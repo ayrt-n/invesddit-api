@@ -7,7 +7,12 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    if Rails.env.development?
+      origins 'http://localhost:3000'
+    else
+      origins 'http://ayrt-n.github.io'
+    end
+
     resource '*',
       headers: :any,
       methods: %i[get post put patch delete options head],
