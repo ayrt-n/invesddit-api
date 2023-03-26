@@ -92,3 +92,6 @@ gem 'rack-cors'
 
 # Add bullet gem to find n+1 queries
 gem 'bullet', group: 'development'
+
+# S3 Gem
+gem "aws-sdk-s3", require: false
