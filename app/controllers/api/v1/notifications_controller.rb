@@ -6,8 +6,13 @@ module Api
 
       def index
         @notifications = @current_account.notifications
-                                         .order(created_at: :desc)
+                                         .by_newest
                                          .page(params[:page], params[:limit])
+                                         .includes(notifiable: [{
+                                                     post: [:community]
+                                                   }, {
+                                                     account: [avatar_attachment: :blob]
+                                                   }])
       end
 
       def update
