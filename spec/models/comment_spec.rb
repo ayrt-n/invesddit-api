@@ -52,6 +52,20 @@ RSpec.describe Comment, type: :model do
 
       expect(notifications.count).to eq(0)
     end
+
+    it 'only notifies the post once author if comment is in response to one of their comments' do
+      # Account creates a post and comment on his post
+      account = create(:account)
+      post = create(:post, account:)
+      comment = create(:comment, post:, account:)
+
+      # Another account replies to the comment
+      create(:comment, post:, comment:)
+
+      # Should only notify once
+      notifications = Notification.where(account:)
+      expect(notifications.count).to eq(1)
+    end
   end
 
   context 'after destroy' do
@@ -62,6 +76,29 @@ RSpec.describe Comment, type: :model do
       comment.destroy
 
       expect(post.comments_count).to eq(1)
+    end
+  end
+
+  context '#soft_delete!' do
+    it 'changes status to deleted' do
+      comment = create(:comment)
+      comment.soft_delete!
+
+      expect(comment.status).to eq('deleted')
+    end
+
+    it 'destroys post and comment notifications' do
+      post = create(:post)
+      comment = create(:comment, post:)
+      reply = create(:comment, post:, comment:)
+
+      reply.soft_delete!
+
+      post_reply_notification = Notification.where(account: post.account)
+      comment_reply_notification = Notification.where(account: comment.account)
+
+      expect(post_reply_notification.count).to eq(1)
+      expect(comment_reply_notification.count).to eq(0)
     end
   end
 end

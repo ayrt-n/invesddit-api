@@ -45,7 +45,7 @@ module Api
         @comment = Comment.find(params[:id])
         return access_denied unless @comment.account == @current_account
 
-        if @comment.deleted!
+        if @comment.soft_delete!
           head :no_content
         else
           unprocessable_entity(@comment)
