@@ -6,7 +6,7 @@ module Api
 
       def index
         @notifications = @current_account.notifications
-                                         .by_newest
+                                         .sort_by_new
                                          .page(params[:page], params[:limit])
                                          .includes(notifiable: [{
                                                      post: [:community]

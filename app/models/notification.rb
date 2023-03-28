@@ -3,7 +3,7 @@ class Notification < ApplicationRecord
   belongs_to :notifiable, polymorphic: true
 
   scope :unread, -> { where(read: false) }
-  scope :by_newest, -> { order(created_at: :desc) }
+  scope :sort_by_new, -> { order(created_at: :desc) }
 
   extend Paginator
   paginates_per_page 10
