@@ -52,6 +52,12 @@ class Post < ApplicationRecord
     deleted? ? nil : account
   end
 
+  # Returns post content, body by default if post is published
+  # If post is deleted, will return nil instead
+  def content
+    deleted? ? nil : body
+  end
+
   private
 
   # If record upvotes/downvotes changed, will need to update cached ranking
