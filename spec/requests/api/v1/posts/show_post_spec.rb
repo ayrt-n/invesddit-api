@@ -11,7 +11,7 @@ RSpec.describe '/GET posts/:id', type: :request do
 
     expect(response.status).to eq(200)
     expect(data['status']).to eq('published')
-    expect(data['body']).to eq(post.body)
+    expect(data['content']).to eq(post.content)
   end
 
   context 'when post has been deleted' do
@@ -26,7 +26,7 @@ RSpec.describe '/GET posts/:id', type: :request do
       expect(response.status).to eq(200)
       expect(data['status']).to eq('deleted')
       expect(data['account']).to be_nil
-      expect(data['body']).to be_nil
+      expect(data['content']).to be_nil
     end
   end
 end
