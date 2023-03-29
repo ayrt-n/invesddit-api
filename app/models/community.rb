@@ -4,7 +4,7 @@ class Community < ApplicationRecord
   extend FriendlyId
   friendly_id :sub_dir
 
-  # Pagination related functionality
+  # Pagination related functionality - default communities per page is 10
   extend Paginator
   paginates_per_page 10
 
@@ -19,7 +19,8 @@ class Community < ApplicationRecord
 
   validates :sub_dir, presence: true,
                       uniqueness: true,
-                      length: { maximum: 20 }
+                      length: { maximum: 20 },
+                      format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
 
   validates :title, length: { maximum: 20 }
   validates :description, length: { maximum: 500 }
