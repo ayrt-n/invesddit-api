@@ -4,8 +4,9 @@ module Api
       before_action :authenticate, only: %i[create update destroy]
       before_action :sanitize_pagination_params, only: :index
 
+      # GET /posts
       def index
-        # Query for and build posts index feed
+        # Query for and build posts feed
         @posts = feed_strategy
                  .new(
                    collection: Post.published.include_feed_associations,
@@ -19,15 +20,18 @@ module Api
                         ))
                  .page(params[:page], params[:limit])
 
-        # Get all votes by the current account for the posts queried
-        @current_account_votes = Vote.for_votables_and_account(@posts, @current_account)
+        # Query for votes by the current account for the posts queried and transform to hash
+        # to make it easier to work with in the view
+        @votes = Vote.for_votables_and_account(@posts, @current_account).group_by(&:votable_id)
       end
 
+      # GET /posts/:id
       def show
         @post = Post.find(params[:id])
-        @current_account_vote = Vote.find_by(votable: @post, account: @current_account)
+        @vote = Vote.find_by(votable: @post, account: @current_account)
       end
 
+      # POST /community/:community_id/posts
       def create
         @community = Community.friendly.find(params[:community_id])
         @post = @community
@@ -41,9 +45,11 @@ module Api
                   )
                 )
 
+        # If unable to save post, render unprocessable entity (422) with errors)
         unprocessable_entity(@post) unless @post.save
       end
 
+      # PATCH /posts/:id
       def update
         @post = Post.find(params[:id])
         return access_denied unless @post.account == @current_account
@@ -55,10 +61,12 @@ module Api
         end
       end
 
+      # DESTROY /posts/:id
       def destroy
         @post = Post.find(params[:id])
         return access_denied unless @post.account == @current_account
 
+        # Soft delete - does not actual destroy record but changes post.status to "deleted"
         if @post.deleted!
           head :no_content
         else
