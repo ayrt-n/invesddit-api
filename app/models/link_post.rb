@@ -5,6 +5,12 @@ class LinkPost < Post
   # Prevent user from updating link
   before_update :prevent_update
 
+  # If link post deleted, return nil for content
+  # Otherwise return the body
+  def content
+    deleted? ? nil : body
+  end
+
   private
 
   def prevent_update

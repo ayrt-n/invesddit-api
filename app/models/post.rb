@@ -46,6 +46,12 @@ class Post < ApplicationRecord
     self.cached_confidence_score = rank.confidence_score
   end
 
+  # Return the post author, e.g., the account it belongs to if the post is published
+  # If post is deleted, will return nil instead
+  def author
+    deleted? ? nil : account
+  end
+
   private
 
   # If record upvotes/downvotes changed, will need to update cached ranking

@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_account
+  before_action :set_active_storage_current_host
+
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   # Format of successful response { "data" : ... }
@@ -38,17 +40,25 @@ class ApplicationController < ActionController::Base
     }, status: :unauthorized
   end
 
+  # Sanitize pagination params by transforming to integer if provided
   def sanitize_pagination_params
     params[:page] = params[:page].to_i if params[:page]
     params[:limit] = params[:limit].to_i if params[:limit]
   end
 
+  # Set the host for active storage, used when generating urls
+  def set_active_storage_current_host
+    ActiveStorage::Current.host = request.base_url
+  end
+
   private
 
+  # Set current_account instance variable if logged in
   def set_current_account
     @current_account = rodauth.rails_account
   end
 
+  # Authenticate logged in
   def authenticate
     rodauth.require_account
   end
