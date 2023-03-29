@@ -48,7 +48,11 @@ class ApplicationController < ActionController::Base
 
   # Set the host for active storage, used when generating urls
   def set_active_storage_current_host
-    ActiveStorage::Current.host = request.base_url
+    ActiveStorage::Current.url_options = {
+      protocol: request.protocol,
+      host: request.host,
+      port: request.port
+    }
   end
 
   private
