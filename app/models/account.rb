@@ -18,6 +18,12 @@ class Account < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
   has_one_attached :banner, dependent: :destroy
 
+  validates :avatar, content_type: ['image/png', 'image/jpeg'],
+                     size: { less_than: 2.megabytes }
+
+  validates :banner, content_type: ['image/png', 'image/jpeg'],
+                     size: { less_than: 5.megabytes }
+
   # Pagination related functionality
   extend Paginator
   paginates_per_page 10

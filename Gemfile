@@ -69,7 +69,11 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
+  gem 'active_storage_validations'
 end
+
+# Make code prettier!
+gem 'rubocop', group: :development
 
 # Rodauth and JWT for authentication
 gem "rodauth-rails", "~> 1.7"

@@ -17,6 +17,12 @@ class Community < ApplicationRecord
   has_one_attached :avatar
   has_one_attached :banner
 
+  validates :avatar, content_type: ['image/png', 'image/jpeg'],
+                     size: { less_than: 2.megabytes }
+
+  validates :banner, content_type: ['image/png', 'image/jpeg'],
+                     size: { less_than: 5.megabytes }
+
   validates :sub_dir, presence: true,
                       uniqueness: true,
                       length: { maximum: 20 },
