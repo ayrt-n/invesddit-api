@@ -49,6 +49,12 @@ class Comment < ApplicationRecord
     notifications.destroy_all
   end
 
+  # Returns comment content, body by default if comment is published
+  # If comment is deleted, will return nil instead
+  def content
+    deleted? ? '[removed]' : body
+  end
+
   private
 
   # If upvotes/downvotes changed, will need to update cached ranking

@@ -1,7 +1,7 @@
 # Comment Data
 json.id comment.id
 json.post_id comment.post_id
-json.body comment.deleted? ? '[removed]' : comment.body
+json.body comment.content
 json.score comment.cached_score
 json.created_at comment.created_at
 json.status comment.status
