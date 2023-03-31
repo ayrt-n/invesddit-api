@@ -69,7 +69,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
-  gem 'active_storage_validations'
 end
 
 # Make code prettier!
@@ -99,3 +98,6 @@ gem 'bullet', group: 'development'
 
 # S3 Gem
 gem "aws-sdk-s3", require: false
+
+# Active Storage Validations
+gem 'active_storage_validations'
