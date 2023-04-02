@@ -2,7 +2,7 @@ module Api
   module V1
     class PostsController < ApplicationController
       before_action :authenticate, only: %i[create update destroy]
-      before_action :sanitize_pagination_params, only: :index
+      before_action :sanitize_pagination_params, only: %i[index search]
 
       # GET /posts
       def index
@@ -72,6 +72,13 @@ module Api
         else
           unprocessable_entity(@post)
         end
+      end
+
+      # GET /search/posts
+      def search
+        # Search posts for given query string
+        @posts = Post.search(params[:q])
+                     .page(params[:page], params[:limit])
       end
 
       private

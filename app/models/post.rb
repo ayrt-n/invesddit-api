@@ -30,6 +30,13 @@ class Post < ApplicationRecord
   scope :sort_by_new, -> { order(created_at: :desc, id: :desc) }
   scope :sort_by_top, -> { order(cached_score: :desc, id: :desc) }
 
+  # Search Scope
+  scope :search, lambda { |q|
+    where('title ILIKE ?', "%#{Post.sanitize_sql_like(q)}%")
+      .published
+      .include_feed_associations
+  }
+
   # Pagination related functionality
   extend Paginator
   paginates_per_page 25

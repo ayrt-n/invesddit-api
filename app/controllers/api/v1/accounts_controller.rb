@@ -2,6 +2,7 @@ module Api
   module V1
     class AccountsController < ApplicationController
       before_action :authenticate, only: %i[edit update]
+      before_action :sanitize_pagination_params, only: :search
 
       def show
         @account = Account.friendly.find(params[:id])
@@ -21,6 +22,12 @@ module Api
 
       def communities
         @communities = @current_account.communities.includes(:avatar_attachment, :banner_attachment)
+      end
+
+      def search
+        # Search accounts for given query string
+        @accounts = Account.search(params[:q])
+                           .page(params[:page], params[:limit])
       end
 
       private

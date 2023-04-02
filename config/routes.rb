@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   defaults format: :json do
     namespace :api do
       namespace :v1 do
-        resources :communities, only: %i[index create show update] do
+        resources :communities, only: %i[create show update] do
           resources :posts, only: :index, strategy: 'community'
           resources :text_posts, controller: 'posts', only: %i[create], type: 'TextPost'
           resources :link_posts, controller: 'posts', only: %i[create], type: 'LinkPost'
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
           resource :votes, only: %i[create destroy]
         end
 
-        resources :accounts, only: %i[index show] do
+        resources :accounts, only: :show do
           resources :posts, only: :index, strategy: 'account'
         end
 
@@ -30,7 +30,9 @@ Rails.application.routes.draw do
         resources :notifications, only: %i[index update]
         patch '/notifications', to: 'notifications#read_all'
 
-        resource :search, only: :show
+        get '/search/accounts', to: 'accounts#search'
+        get '/search/posts', to: 'posts#search'
+        get '/search/communities', to: 'communities#search'
       end
     end
   end

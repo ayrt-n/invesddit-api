@@ -31,6 +31,13 @@ class Community < ApplicationRecord
   validates :title, length: { maximum: 20 }
   validates :description, length: { maximum: 500 }
 
+  # Search Scope
+  scope :search, lambda { |q|
+    where('sub_dir ILIKE ?', "%#{Community.sanitize_sql_like(q)}%")
+      .with_attached_avatar
+      .with_attached_banner
+  }
+
   # Receives account, returns the role ('admin', 'member') or nil
   # If nil provided, returns nil
   def role(account)

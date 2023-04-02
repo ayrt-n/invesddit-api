@@ -2,20 +2,14 @@ module Api
   module V1
     class CommunitiesController < ApplicationController
       before_action :authenticate, only: %i[create update]
+      before_action :sanitize_pagination_params, only: :search
 
-      def index
-        params[:q] ||= ''
-
-        @communities = Community.where('sub_dir ILIKE ?', "%#{Community.sanitize_sql_like(params[:q])}%")
-                                .limit(5)
-                                .with_attached_avatar
-                                .with_attached_banner
-      end
-
+      # GET /communities/:id
       def show
         @community = Community.friendly.find(params['id'])
       end
 
+      # POST /communities
       def create
         # Create community and set the creator (current account) as the admin
         @community = Community.new(community_params)
@@ -25,6 +19,7 @@ module Api
         unprocessable_entity(@community) unless @community.save
       end
 
+      # PATCH /communities/:id
       def update
         @community = Community.friendly.find(params['id'])
         return access_denied unless @community.admins.include?(current_account)
@@ -34,6 +29,13 @@ module Api
         else
           unprocessable_entity(@community)
         end
+      end
+
+      # GET /search/communities
+      def search
+        # Search communities for given query string
+        @communities = Community.search(params[:q])
+                                .page(params[:page], params[:limit])
       end
 
       private

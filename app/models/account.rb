@@ -24,6 +24,12 @@ class Account < ApplicationRecord
   validates :banner, content_type: ['image/png', 'image/jpeg'],
                      size: { less_than: 5.megabytes }
 
+  # Search Scope
+  scope :search, lambda { |q|
+    where('username ILIKE ?', "%#{Account.sanitize_sql_like(q)}%")
+      .with_attached_avatar
+  }
+
   # Pagination related functionality
   extend Paginator
   paginates_per_page 10
