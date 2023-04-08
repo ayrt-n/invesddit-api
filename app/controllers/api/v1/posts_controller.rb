@@ -55,7 +55,7 @@ module Api
         return access_denied unless @post.account == @current_account
 
         if @post.update(update_post_params)
-          render partial: '/api/v1/posts/post', locals: { post: @post }
+          head :no_content
         else
           unprocessable_entity(@post)
         end

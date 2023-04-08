@@ -11,7 +11,7 @@ RSpec.describe '/PATCH posts/:id', type: :request do
       Authorization: response['Authorization']
     }, params: { post: { body: 'UPDATED POST' } }, as: :json
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(Post.find(post.id).body).to eq('UPDATED POST')
   end
 
