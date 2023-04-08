@@ -11,23 +11,11 @@ class Comment < ApplicationRecord
 
   validates :body, presence: true
 
-  # Votable related functionality
+  # Include Votable related functionality
   include Votable
-  before_save :update_cached_rankings, if: :ranking_update_required?
-
-  def update_cached_rankings
-    rank = Rank.new(upvotes: cached_upvotes, downvotes: cached_downvotes, created_at:)
-
-    self.cached_score = rank.score
-    self.cached_hot_rank = rank.hot_rank
-    self.cached_confidence_score = rank.confidence_score
-  end
 
   # Ordering Scopes
-  scope :sort_by_best, -> { order(cached_confidence_score: :desc, id: :desc) }
-  scope :sort_by_hot, -> { order(cached_hot_rank: :desc, id: :desc) }
   scope :sort_by_new, -> { order(created_at: :desc, id: :desc) }
-  scope :sort_by_top, -> { order(cached_score: :desc, id: :desc) }
 
   # Notification related functionality
   include Notifiable
@@ -56,11 +44,6 @@ class Comment < ApplicationRecord
   end
 
   private
-
-  # If upvotes/downvotes changed, will need to update cached ranking
-  def ranking_update_required?
-    cached_upvotes_changed? || cached_downvotes_changed?
-  end
 
   # If the comment is a reply to another comment, notify the comment author this is in response to
   def create_reply_notification

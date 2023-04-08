@@ -25,10 +25,7 @@ class Post < ApplicationRecord
   scope :filter_by_account, ->(account) { where({ account: }) }
 
   # Ordering Scopes
-  scope :sort_by_best, -> { order(cached_confidence_score: :desc, id: :desc) }
-  scope :sort_by_hot, -> { order(cached_hot_rank: :desc, id: :desc) }
   scope :sort_by_new, -> { order(created_at: :desc, id: :desc) }
-  scope :sort_by_top, -> { order(cached_score: :desc, id: :desc) }
 
   # Search Scope
   scope :search, lambda { |q|
@@ -41,17 +38,8 @@ class Post < ApplicationRecord
   extend Paginator
   paginates_per_page 25
 
-  # Update cached rankings
+  # Include Votable related functionality
   include Votable
-  before_save :update_cached_rankings, if: :ranking_update_required?
-
-  def update_cached_rankings
-    rank = Rank.new(upvotes: cached_upvotes, downvotes: cached_downvotes, created_at:)
-
-    self.cached_score = rank.score
-    self.cached_hot_rank = rank.hot_rank
-    self.cached_confidence_score = rank.confidence_score
-  end
 
   # Return the post author, e.g., the account it belongs to if the post is published
   # If post is deleted, will return nil instead
@@ -63,12 +51,5 @@ class Post < ApplicationRecord
   # If post is deleted, will return nil instead
   def content
     deleted? ? nil : body
-  end
-
-  private
-
-  # If record upvotes/downvotes changed, will need to update cached ranking
-  def ranking_update_required?
-    cached_upvotes_changed? || cached_downvotes_changed?
   end
 end
