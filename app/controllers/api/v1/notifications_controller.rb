@@ -4,6 +4,7 @@ module Api
       before_action :authenticate
       before_action :sanitize_pagination_params, only: :index
 
+      # GET /notifications
       def index
         @notifications = @current_account.notifications
                                          .sort_by_new
@@ -15,6 +16,8 @@ module Api
                                                    }])
       end
 
+      # PATCH /notifications/:id
+      # Currently only used to mark notification as read/unread
       def update
         @notification = Notification.find(params[:id])
         return access_denied unless @notification.account == @current_account
@@ -26,6 +29,8 @@ module Api
         end
       end
 
+      # PATCH /notifications
+      # Marks all notifications as read
       def read_all
         if @current_account.mark_all_notifications_read
           head :no_content
@@ -36,6 +41,7 @@ module Api
 
       private
 
+      # Allowlist for notification params
       def notification_params
         params.require(:notification).permit(:read)
       end
