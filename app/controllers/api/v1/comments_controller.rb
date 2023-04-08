@@ -8,7 +8,7 @@ module Api
         @comments = @comments.send("sort_by_#{sort_by_params}")
 
         # Get all votes by the current account for the comments queried
-        @current_account_votes = Vote.for_votables_and_account(@comments, @current_account)
+        @votes = Vote.for_votables_and_account(@comments, @current_account).group_by(&:votable_id)
 
         # Group comments by reply_id to work with top-level and nested comments in view
         @comments = @comments.group_by(&:reply_id)
