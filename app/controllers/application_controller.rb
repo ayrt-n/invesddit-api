@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
       error: {
         code: '422',
         message: 'Unprocessable Entity',
-        errors: resource.errors.full_messages
+        details: resource.errors.full_messages
       }
     }, status: :unprocessable_entity
   end
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       error: {
         code: '404',
         message: 'Not Found',
-        errors: ['The requested resource could not be found.']
+        details: ['The requested resource could not be found.']
       }
     }, status: :not_found
   end
