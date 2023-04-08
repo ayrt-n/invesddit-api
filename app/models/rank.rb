@@ -4,7 +4,7 @@ class Rank
   def initialize(upvotes:, downvotes:, created_at:)
     @upvotes = upvotes
     @downvotes = downvotes
-    @created_at = created_at
+    @created_at = created_at || Time.current
   end
 
   def score
