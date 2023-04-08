@@ -13,7 +13,7 @@ RSpec.describe '/POST communities/:sub_dir/memberships', type: :request do
 
     membership = Membership.last
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(membership.community).to eq(community)
     expect(membership.account).to eq(account)
   end
