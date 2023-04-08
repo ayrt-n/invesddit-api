@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_19_135844) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_08_123456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -79,7 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_19_135844) do
 
   create_table "comments", force: :cascade do |t|
     t.string "body"
-    t.bigint "account_id"
+    t.bigint "account_id", null: false
     t.bigint "post_id", null: false
     t.bigint "reply_id"
     t.datetime "created_at", null: false
