@@ -8,7 +8,7 @@ As part of the final project for [The Odin Project](https://www.theodinproject.c
 
 As a result, Invesddit was born!
 
-This repository is for the backend Ruby on Rails API. You can find more information on the frontend React application [here](https://github.com/ayrt-n/invesddit).
+This repository is for the backend Ruby on Rails API for Invesddit. You can find more information on the frontend React application [here](https://github.com/ayrt-n/invesddit).
 
 ## Set up
 
