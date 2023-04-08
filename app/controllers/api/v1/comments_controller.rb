@@ -3,6 +3,7 @@ module Api
     class CommentsController < ApplicationController
       before_action :authenticate, only: %i[create update]
 
+      # GET /posts/:post_id/comments
       def index
         @comments = Post.find(params[:post_id]).comments.includes(:account)
         @comments = @comments.send("sort_by_#{sort_by_params}")
@@ -14,6 +15,7 @@ module Api
         @comments = @comments.group_by(&:reply_id)
       end
 
+      # POST /posts/:post_id/comments
       def create
         @comment = Post.find(params[:post_id])
                        .comments
@@ -30,6 +32,7 @@ module Api
         end
       end
 
+      # PATCH /comments/:id
       def update
         @comment = Comment.find(params[:id])
         return access_denied unless @comment.account == current_account
@@ -41,6 +44,7 @@ module Api
         end
       end
 
+      # DESTROY /comments/:id
       def destroy
         @comment = Comment.find(params[:id])
         return access_denied unless @comment.account == @current_account
@@ -54,14 +58,17 @@ module Api
 
       private
 
+      # Allowlist for create comment params
       def create_comment_params
         params.require(:comment).permit(:body, :reply_id)
       end
 
+      # Allowlist for update comment params
       def update_comment_params
         params.require(:comment).permit(:body)
       end
 
+      # Allowlist for sort_by method
       def sort_by_params
         # Return specified sort_by param if whitelisted
         return params[:sort_by] if %w[best hot new top].include?(params[:sort_by])
