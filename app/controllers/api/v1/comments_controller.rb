@@ -35,7 +35,7 @@ module Api
         return access_denied unless @comment.account == current_account
 
         if @comment.update(update_comment_params)
-          render partial: 'api/v1/comments/comment', locals: { comment: @comment }
+          head :no_content
         else
           unprocessable_entity(@comment)
         end

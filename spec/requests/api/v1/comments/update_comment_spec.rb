@@ -11,7 +11,7 @@ RSpec.describe '/PATCH comments/:id', type: :request do
       Authorization: response['Authorization']
     }, params: { comment: { body: 'UPDATED COMMENT' } }, as: :json
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(Comment.find(comment.id).body).to eq('UPDATED COMMENT')
   end
 
