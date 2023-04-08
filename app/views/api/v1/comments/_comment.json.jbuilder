@@ -7,7 +7,7 @@ json.created_at comment.created_at
 json.status comment.status
 
 # Return the vote type (up / down) from votes hash if exists (otherwise return nil)
-json.vote_status @votes&.values_at(comment.id)&.dig(0)&.vote_type
+json.vote_status @votes[comment.id]&.dig(0)&.vote_type if @votes
 
 # Comment Author (Account) Data (if deleted return nil)
 json.account do
