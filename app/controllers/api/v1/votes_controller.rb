@@ -4,6 +4,8 @@ module Api
       before_action :set_votable
       before_action :authenticate
 
+      # POST /votable/:votable_id/votes
+      # Used to create a new vote or update an existing vote
       def create
         # If upvote set value to 1, otherwise set the value to -1 for downvote
         vote_type = params.key?(:upvote) ? 1 : -1
@@ -13,12 +15,13 @@ module Api
 
         # Save changes and render resource or errors
         if @vote.update_attribute(:vote_type, vote_type)
-          render_resource(@vote)
+          head :no_content
         else
           unprocessable_entity(@vote)
         end
       end
 
+      # DESTROY /votable/:votable_id/votes
       def destroy
         @vote = @current_account.votes.where(votable: @votable)
         return not_found unless @vote
@@ -32,6 +35,7 @@ module Api
 
       private
 
+      # Set the votable record - Currently either a post or comment
       def set_votable
         @votable = params[:post_id] ? Post.find(params[:post_id]) : Comment.find(params[:comment_id])
       end

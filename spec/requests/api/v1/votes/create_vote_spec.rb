@@ -13,7 +13,7 @@ RSpec.describe '/POST votable/:votable_id/votes', type: :request do
 
     vote = Vote.last
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(vote.account).to eq(account)
     expect(vote.votable.id).to eq(post.id)
     expect(vote.vote_type).to eq('upvote')
@@ -31,7 +31,7 @@ RSpec.describe '/POST votable/:votable_id/votes', type: :request do
 
     vote = Vote.last
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(204)
     expect(vote.vote_type).to eq('downvote')
   end
 end
