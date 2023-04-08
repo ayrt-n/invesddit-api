@@ -24,13 +24,9 @@ class Vote < ApplicationRecord
     # Return unless a change was made to type (e.g., upvote changed to downvote or vice versa)
     return unless saved_change_to_vote_type
 
-    if vote_type == 'upvote'
-      votable.increment(:cached_upvotes)
-      votable.decrement(:cached_downvotes)
-    else
-      votable.decrement(:cached_upvotes)
-      votable.increment(:cached_downvotes)
-    end
+    # If vote type changed to upvote, switch downvote to upvote on votable
+    # Otherwise do opposite
+    vote_type == 'upvote' ? switch_downvote_to_upvote : switch_upvote_to_downvote
 
     votable.save
   end
@@ -40,5 +36,17 @@ class Vote < ApplicationRecord
   def update_votable_on_destroy
     vote_type == 'upvote' ? votable.decrement(:cached_upvotes) : votable.decrement(:cached_downvotes)
     votable.save
+  end
+
+  private
+
+  def switch_upvote_to_downvote
+    votable.decrement(:cached_upvotes)
+    votable.increment(:cached_downvotes)
+  end
+
+  def switch_downvote_to_upvote
+    votable.increment(:cached_upvotes)
+    votable.decrement(:cached_downvotes)
   end
 end
