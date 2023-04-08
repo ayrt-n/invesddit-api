@@ -45,7 +45,7 @@ module Api
                   )
                 )
 
-        # If unable to save post, render unprocessable entity (422) with errors)
+        # If unable to save post, render unprocessable entity (422) with errors
         unprocessable_entity(@post) unless @post.save
       end
 
