@@ -33,7 +33,7 @@ RSpec.describe Membership, type: :model do
       expect(@community).to have_received(:decrement!).with(:members_count)
     end
 
-     it 'does not call decrement if membership is admin role' do
+    it 'does not call decrement if membership is admin role' do
       allow(@community).to receive(:increment!)
       allow(@community).to receive(:decrement!)
 
