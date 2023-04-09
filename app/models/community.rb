@@ -12,7 +12,7 @@ class Community < ApplicationRecord
   has_many :posts
   has_many :memberships, dependent: :destroy
   has_many :admins, -> { where(memberships: { role: 'admin' }) }, through: :memberships, source: :account
-  has_many :members, through: :memberships, source: :account
+  has_many :members, -> { where(memberships: { role: 'member' }) }, through: :memberships, source: :account
 
   has_one_attached :avatar
   has_one_attached :banner
@@ -38,9 +38,8 @@ class Community < ApplicationRecord
       .with_attached_banner
   }
 
-  # Receives account, returns the role ('admin', 'member') or nil
-  # If nil provided, returns nil
-  def role(account)
-    memberships.find_by(account:)&.role
+  # Receives account, returns array of the accounts roles (e.g., 'admin', 'member') or empty array
+  def roles(account)
+    memberships.where(account:)&.pluck(:role) || []
   end
 end
