@@ -11,9 +11,10 @@ module Api
 
       # POST /communities
       def create
-        # Create community and set the creator (current account) as the admin
+        # Create community and set the creator (current account) as an admin and member
         @community = Community.new(community_params)
         @community.memberships.build(account_id: current_account.id, role: 'admin')
+        @community.memberships.build(account_id: current_account.id, role: 'member')
 
         # If save successul render community, else render errors
         unprocessable_entity(@community) unless @community.save
