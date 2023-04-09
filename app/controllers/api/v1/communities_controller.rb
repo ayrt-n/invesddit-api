@@ -29,7 +29,7 @@ module Api
         return access_denied unless @community.admins.include?(current_account)
 
         if @community.update(community_update_params)
-          render :show
+          head :no_content
         else
           unprocessable_entity(@community)
         end

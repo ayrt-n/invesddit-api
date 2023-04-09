@@ -17,8 +17,10 @@ RSpec.describe '/PATCH communities', type: :request do
       Authorization: response['Authorization']
     }, params: { title: community.sub_dir }, as: :json
 
-    expect(response.status).to eq(200)
-    expect(json['data']['title']).to eq(community.sub_dir)
+    community.reload
+
+    expect(response.status).to eq(204)
+    expect(community.title).to eq(community.sub_dir)
   end
 
   context 'when non-admin tries to update' do
