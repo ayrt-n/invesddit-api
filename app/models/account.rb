@@ -34,7 +34,7 @@ class Account < ApplicationRecord
   extend Paginator
   paginates_per_page 10
 
-  # Join community, i.e., create a membership
+  # Join community, i.e., create a membership (default membership role is member)
   def join_community(community)
     memberships.create(community:)
   end
