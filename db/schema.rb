@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_08_123456) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_09_131447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -112,7 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_08_123456) do
     t.integer "role", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "community_id"], name: "index_memberships_on_account_id_and_community_id", unique: true
+    t.index ["account_id", "community_id"], name: "index_memberships_on_account_id_and_community_id"
     t.index ["account_id"], name: "index_memberships_on_account_id"
     t.index ["community_id"], name: "index_memberships_on_community_id"
   end
