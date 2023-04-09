@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
-  # Validation tests
-
   context 'members counter cache' do
     before do
       @account = create(:account)
