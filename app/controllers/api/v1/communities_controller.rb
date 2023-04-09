@@ -7,6 +7,9 @@ module Api
       # GET /communities/:id
       def show
         @community = Community.friendly.find(params['id'])
+
+        # Array of current accounts roles (e.g., member, admin) or empty array
+        @roles = @community.roles(@current_account)
       end
 
       # POST /communities
