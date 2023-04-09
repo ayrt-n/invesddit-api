@@ -1,5 +1,5 @@
 class Membership < ApplicationRecord
-  belongs_to :community, counter_cache: true
+  belongs_to :community
   belongs_to :account
 
   validates :account,
@@ -11,4 +11,16 @@ class Membership < ApplicationRecord
             }
 
   enum :role, { member: 1, admin: 2 }
+
+  # Custom counter cache for members count
+  after_create :increment_members_count, if: :member?
+  after_destroy :decrement_members_count, if: :member?
+
+  def increment_members_count
+    community.increment!(:members_count)
+  end
+
+  def decrement_members_count
+    community.decrement!(:members_count)
+  end
 end
