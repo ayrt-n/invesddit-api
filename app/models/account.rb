@@ -39,6 +39,11 @@ class Account < ApplicationRecord
     memberships.create(community:)
   end
 
+  # Leave community, i.e., destroy membership with role member
+  def leave_community(community)
+    memberships.find_by(community:, role: 'member').destroy
+  end
+
   # Return all sub_dir for all communities account is member of
   def communities_friendly_ids
     communities.pluck(:sub_dir)

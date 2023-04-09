@@ -4,6 +4,7 @@ module Api
       before_action :authenticate, only: %i[create destroy]
 
       # POST /communities/:community_id/memberships
+      # Route to join the community as a member
       def create
         community = Community.friendly.find(params[:community_id])
         @membership = @current_account.join_community(community)
@@ -16,12 +17,12 @@ module Api
       end
 
       # DESTROY /communities/:community_id/memberships
+      # Route to leave the community as a member (admin status will be retained)
       def destroy
-        @community = Community.friendly.find(params[:community_id])
-        @membership = @current_account.memberships.where(community: @community)
-        return not_found unless @membership
+        community = Community.friendly.find(params[:community_id])
+        @membership = @current_account.leave_community(community)
 
-        if @membership.destroy_all
+        if @membership
           head :no_content
         else
           unprocessable_entity(@membership)
