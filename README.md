@@ -84,7 +84,7 @@ curl \
 
 The database currently consists of seven separate but related tables (excluding Account verification and recovery-related and Active Storage-related tables), as follows:
 
-[Insert ER Diagram]
+![alt text](https://github.com/ayrt-n/invesddit-api/blob/main/demo/invesddit-erd.png "Entity Relationship Diagram for Invesddit API")
 
 Accounts:
 - The Accounts table consist of a a number of columns related to the user authentication (e.g., email and password), the users public profile (e.g., username), as well as a counter cache for notifications
