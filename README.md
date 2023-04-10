@@ -36,14 +36,29 @@ Once that is finished, you can start the backend server by running:
 
 The backend should now be running on your localhost, port 3001. With that going, you are now able to start working with the API, either by using a service like Postman or curl in the terminal, or setting up the React fronend by following the instructions withing the associated repo [here](https://github.com/ayrt-n/invesddit).
 
+## List of Features
+
+Invesddit's features were modelled closely after Reddit. A quick synopsis of the features includes:
+
+- Browsing of main feed, community pages, and posts all accessible with or without an account
+- Participating in the creation of content (e.g., posting, commenting, voting, joining communities, etc.) requires an account
+- If logged in, users are shown a main feed which contains posts from communities they have joined. If not logged in, users are displayed posts from across all communities
+- Users are able to sort post/comment feeds by Reddit's "hot" ranking algorithm, Reddit's "confidence" ranking algorithm, newest posts, or highest score (upvotes minus downvotes)
+- Users can create text posts, link posts, or media posts with user uploaded images
+- Users can comment on posts and/or reply to comments (infinitely nested comment system)
+- Notification system which notifies users when others comment on their posts or reply to their comments
+- Admin system, allowing users with admin permissions to modify community pages (e.g., change the title, description, avatar or banner)
+- Search system, allowing users to search across all posts, communities, or accounts to find content they are interested in
+- Offset pagination
+
 ## Sample API Queries
 
 Once the server is running on localhost, there are a number of different queries which can be run to test any of the functionality. Some examples as follows:
 
-Query main post feed:
+Query main post feed, sorted by hot algorithm:
 ```bash
 curl \
-  http://localhost:3000/api/v1/posts
+  http://localhost:3000/api/v1/posts?sort_by=hot
 ```
 
 Create an account:
