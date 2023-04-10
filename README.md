@@ -69,3 +69,18 @@ Comments:
 - A Comment belongs_to (via foreign key, required) an Account
 - A Comment belongs_to (via foreign key, required) a Post
 
+Communities:
+- Communities are the Invesddit equivalent of sub-Reddits, allowing Accounts to set up and participate in different discussion forums/communities focused around topics of interest
+- Communities currently consist of a sub directory (sub_dir), used to identify communities and generate URLs (e.g., https://github.com/ayrt-n/invesddit/c/GOOG), a title used to give the community a more human readable name, and description.
+- Additionally, the communities table has a column for keeping track of the number of members at a given time (memberships_count) to efficiently display that information to users
+- A Community has_many (0,..,n) Posts
+- A Community has_many (0,..,n) Memberships
+- A Community has_many (0,..,n) Admins through Memberships
+- A Community has_many (0,..,n) Members through Memberships
+- In order to modify Community informaiton (e.g., title, description), a user must be an Admin
+
+Memberships:
+- Accounts may be a part of many communities and Communities have many accounts which participate in the Community. The Memberships table helps to record the relationship between Accounts and Communities
+- The role column on the Memberships table indicates what the Accounts role is in the Community. Currently, Accounts may either participate in a Community as a member (1) or admin (2)
+- A Membership belongs_to (via foreign key, required) an Account
+- A Membership belongs_to (via foreign key, required) a Community 
