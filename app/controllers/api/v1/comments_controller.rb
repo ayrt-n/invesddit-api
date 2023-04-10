@@ -5,7 +5,7 @@ module Api
 
       # GET /posts/:post_id/comments
       def index
-        @comments = Post.find(params[:post_id]).comments.includes(:account)
+        @comments = Post.find(params[:post_id]).comments.includes(account: [:avatar_attachment])
         @comments = @comments.send("sort_by_#{sort_by_params}")
 
         # Get all votes by the current account for the comments queried
