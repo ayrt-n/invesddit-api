@@ -82,7 +82,7 @@ curl \
 
 ## Database Structure
 
-The database currently consists of five separate but related tables, as follows (excluding Account verification and recovery-related and Active Storage-related tables):
+The database currently consists of seven separate but related tables (excluding Account verification and recovery-related and Active Storage-related tables), as follows:
 
 [Insert ER Diagram]
 
