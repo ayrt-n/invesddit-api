@@ -91,3 +91,7 @@ Memberships:
 - A Membership belongs_to (via foreign key, required) an Account
 - A Membership belongs_to (via foreign key, required) a Community 
 
+Notifications:
+- Accounts have notifications to help alert them to content they might be interested in, as well as let them know when other users are engaging with their content
+- A Notification belongs_to (via foreign key and polymorphic type column, required) Notifiable (e.g., a Post or Comment)
+- A Notification belongs_to (via a foreign key, required) an Account
