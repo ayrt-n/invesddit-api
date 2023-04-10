@@ -41,28 +41,43 @@ The backend should now be running on your localhost, port 3001. With that going,
 Once the server is running on localhost, there are a number of different queries which can be run to test any of the functionality. Some examples as follows:
 
 Query main post feed:
-```
-curl http://localhost:3000/api/v1/posts
+```bash
+curl \
+http://localhost:3000/api/v1/posts
 ```
 
 Create an account:
-```
-curl -d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' -H 'Content-Type: application/json' http://localhost:3001/create-account
+```bash
+curl \
+-d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' \
+-H 'Content-Type: application/json' \
+http://localhost:3001/create-account
 ```
 
 Login (Get JWT token for authorized requests):
-```
-curl -d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' -H 'Content-Type: application/json' http://localhost:3001/login
+```bash
+curl \
+-d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' \
+-H 'Content-Type: application/json' \
+http://localhost:3001/login
 ```
 
 Create new community:
 ```
-curl -d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities,
+curl \
+-d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: <JWT Token>' \
+http://localhost:3001/api/v1/communities,
 ```
 
 Create new text post for community:
-```
-curl -d '{"post": { "title":"Worried about the impact of apple privacy changes","body":"Anybody else worried?" } }' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities/META/text_posts,
+```bash
+curl \
+-d '{"post": { "title":"Worried about the impact of apple privacy changes","body":"Anybody else worried?" } }' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: <JWT Token>' \
+http://localhost:3001/api/v1/communities/META/text_posts,
 ```
 
 ## Database Structure
