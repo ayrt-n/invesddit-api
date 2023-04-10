@@ -57,15 +57,12 @@ curl -d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' -H 'Content-Type: appl
 
 Create new community:
 ```
-curl -d 
-'{"sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock"}'
--H 'Content-Type: application/json' -H 'Authorization: <JWT Token>'
-http://localhost:3001/api/v1/communities,
+curl -d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities,
 ```
 
-Create new post for community:
+Create new text post for community:
 ```
-curl -d '{"":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock"}' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities,
+curl -d '{"post": { "title":"Worried about the impact of apple privacy changes","body":"Anybody else worried?" } }' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities/META/text_posts,
 ```
 
 ## Database Structure
