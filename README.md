@@ -12,7 +12,7 @@ This repository is for the backend Ruby on Rails API for Invesddit. You can find
 
 ## Set up
 
-### Using Web Brower
+### Using Web Brower (Recommended)
 
 The simplest way to view Invesddit is live on Github at https://ayrt-n.github.io/invesddit/
 
@@ -35,3 +35,25 @@ Once that is finished, you can start the backend server by running:
 ```rails s -p 3001```
 
 The backend should now be running on your localhost, port 3001. With that going, you are now able to start working with the API, either by using a service like Postman or curl in the terminal, or setting up the React fronend by following the instructions withing the associated repo [here](https://github.com/ayrt-n/invesddit).
+
+## Database Structure
+
+The database currently consists of five separate but related tables, as follows (excluding Account verification and recovery-related and Active Storage-related tables):
+
+[Insert ER Diagram]
+
+Accounts:
+- The Accounts table consist of a a number of columns related to the user authentication (e.g., email and password), the users public profile (e.g., username), as well as a counter cache for notifications
+- An Account has_many (0,..,n) Posts
+- An Account has_many (0,..n) Comments
+- An Account has_many (0,..n) Notifications
+- An Account has_many (0,..n) Memberships
+- An Account has_many (0,..n) Communities through Memberships
+
+Posts:
+- Accounts are able to create TextPosts, MediaPosts, or LinkPosts, depending on what type of content they are interested in sharing. All posts consist of a title, while TextPosts and LinkPosts have a body, and MediaPosts have an associated image
+- Posts have a number of cached values (e.g., upvotes, downvotes, score, hot rank, confidence score, comments count) used to efficiently display post data and sort posts when generating user feeds
+- A Post has_many (0,..,n) Comments
+- A Post has_many (0,..,n) Votes
+- A Post belongs_to (via foreign key, required) a Community
+- A Post belongs_to (via foreign key, required) an Account
