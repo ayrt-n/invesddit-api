@@ -40,9 +40,9 @@ The backend should now be running on your localhost, port 3001. With that going,
 
 Once the server is running on localhost, there are a number of different queries which can be run to test any of the functionality. Some examples as follows:
 
-Query select page of main post feed:
+Query main post feed:
 ```
-curl http://localhost:3000/api/v1/posts?page=2
+curl http://localhost:3000/api/v1/posts
 ```
 
 Create an account:
@@ -50,9 +50,14 @@ Create an account:
 curl -d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' -H 'Content-Type: application/json' http://localhost:3001/create-account
 ```
 
-Login / Get JWT Token to make Authorized Requests:
+Login (Get JWT token for authorized requests):
 ```
 curl -d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' -H 'Content-Type: application/json' http://localhost:3001/login
+```
+
+Create new community:
+```
+curl -d '{"sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock"}' -H 'Content-Type: application/json' -H 'Authorization: <JWT Token>' http://localhost:3001/api/v1/communities,
 ```
 
 ## Database Structure
