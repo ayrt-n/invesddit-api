@@ -50,6 +50,8 @@ Invesddit's features were modelled closely after Reddit. A quick synopsis of the
 - Admin system, allowing users with admin permissions to modify community pages (e.g., change the title, description, avatar or banner)
 - Search system, allowing users to search across all posts, communities, or accounts to find content they are interested in
 - Offset pagination
+- User uploads via Amazon S3
+- Json Web Token for user authentication and authorization
 
 ## Sample API Queries
 
