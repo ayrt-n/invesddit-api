@@ -53,7 +53,19 @@ Accounts:
 Posts:
 - Accounts are able to create TextPosts, MediaPosts, or LinkPosts, depending on what type of content they are interested in sharing. All posts consist of a title, while TextPosts and LinkPosts have a body, and MediaPosts have an associated image
 - Posts have a number of cached values (e.g., upvotes, downvotes, score, hot rank, confidence score, comments count) used to efficiently display post data and sort posts when generating user feeds
+- Additionally, Posts contain a column for status (either Published or Deleted) to allow for soft deletion
 - A Post has_many (0,..,n) Comments
 - A Post has_many (0,..,n) Votes
 - A Post belongs_to (via foreign key, required) a Community
 - A Post belongs_to (via foreign key, required) an Account
+
+Comments:
+- Accounts are able to comment on posts and/or reply to other comments. Comments consist of a body string as well as a status for Published or Deleted to allow for soft deletion (like posts)
+- Comments may be infinitely nested as comments may be in response to other comments
+- Comments have a number of cached values (e.g., upvotes, downvotes, score, hot rank, confidence score) used to efficiently display comment data and sort comments when generating the comment section
+- A Comment has_many (0,..,n) Votes
+- A Comment has_many (0,..,n) Replies (Comments)
+- A Comment has_many (0,..,n) Notifications
+- A Comment belongs_to (via foreign key, required) an Account
+- A Comment belongs_to (via foreign key, required) a Post
+
