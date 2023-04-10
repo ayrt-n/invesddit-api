@@ -25,7 +25,7 @@ module Api
 
       # GET /accounts/communities
       def communities
-        @communities = @current_account.communities.includes(:avatar_attachment, :banner_attachment)
+        @communities = @current_account.communities.distinct.includes(:avatar_attachment, :banner_attachment)
       end
 
       # GET /search/accounts
