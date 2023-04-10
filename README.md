@@ -69,6 +69,12 @@ Comments:
 - A Comment belongs_to (via foreign key, required) an Account
 - A Comment belongs_to (via foreign key, required) a Post
 
+Votes:
+- Similar to most other content aggregation website, Accounts are able to upvote content (Posts or Comments) that they enjoy and downvote content that they do not like. The Votes table records votes for this content as well as the vote type (upvote or downvote)
+- To keep track of and prevent duplicate votes, the Vote table needs to track both the Account and Votable (Post of Comment) that was voted on
+- A Vote belongs_to (via foreign key, required) an Account
+- A Vote belongs_to (via foreign key and polymorphic type column, required) a polymorphic Votable
+
 Communities:
 - Communities are the Invesddit equivalent of sub-Reddits, allowing Accounts to set up and participate in different discussion forums/communities focused around topics of interest
 - Communities currently consist of a sub directory (sub_dir), used to identify communities and generate URLs (e.g., https://github.com/ayrt-n/invesddit/c/GOOG), a title used to give the community a more human readable name, and description.
@@ -84,3 +90,4 @@ Memberships:
 - The role column on the Memberships table indicates what the Accounts role is in the Community. Currently, Accounts may either participate in a Community as a member (1) or admin (2)
 - A Membership belongs_to (via foreign key, required) an Account
 - A Membership belongs_to (via foreign key, required) a Community 
+
