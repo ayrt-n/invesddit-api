@@ -36,6 +36,25 @@ Once that is finished, you can start the backend server by running:
 
 The backend should now be running on your localhost, port 3001. With that going, you are now able to start working with the API, either by using a service like Postman or curl in the terminal, or setting up the React fronend by following the instructions withing the associated repo [here](https://github.com/ayrt-n/invesddit).
 
+## Sample API Queries
+
+Once the server is running on localhost, there are a number of different queries which can be run to test any of the functionality. Some examples as follows:
+
+Query select page of main post feed:
+```
+curl http://localhost:3000/api/v1/posts?page=2
+```
+
+Create an account:
+```
+curl -d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' -H 'Content-Type: application/json' http://localhost:3001/create-account
+```
+
+Login / Get JWT Token to make Authorized Requests:
+```
+curl -d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' -H 'Content-Type: application/json' http://localhost:3001/login
+```
+
 ## Database Structure
 
 The database currently consists of five separate but related tables, as follows (excluding Account verification and recovery-related and Active Storage-related tables):
