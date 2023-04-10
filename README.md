@@ -77,7 +77,7 @@ Votes:
 
 Communities:
 - Communities are the Invesddit equivalent of sub-Reddits, allowing Accounts to set up and participate in different discussion forums/communities focused around topics of interest
-- Communities currently consist of a sub directory (sub_dir), used to identify communities and generate URLs (e.g., https://github.com/ayrt-n/invesddit/c/GOOG), a title used to give the community a more human readable name, and description.
+- Communities currently consist of a sub directory (sub_dir), used to identify communities and generate URLs (e.g., https://ayrt-n.github.io/invesddit/c/NVDA), a title used to give the community a more human readable name, and description.
 - Additionally, the communities table has a column for keeping track of the number of members at a given time (memberships_count) to efficiently display that information to users
 - A Community has_many (0,..,n) Posts
 - A Community has_many (0,..,n) Memberships
