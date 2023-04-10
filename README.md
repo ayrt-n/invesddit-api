@@ -63,7 +63,7 @@ http://localhost:3001/login
 ```
 
 Create new community:
-```
+```bash
 curl \
 -d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' \
 -H 'Content-Type: application/json' \
