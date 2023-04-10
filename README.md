@@ -43,41 +43,41 @@ Once the server is running on localhost, there are a number of different queries
 Query main post feed:
 ```bash
 curl \
-http://localhost:3000/api/v1/posts
+  http://localhost:3000/api/v1/posts
 ```
 
 Create an account:
 ```bash
 curl \
--d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' \
--H 'Content-Type: application/json' \
-http://localhost:3001/create-account
+  -d '{"login":<EMAIL ADDRESS>,"username":<USERNAME>,"password":<PASSWORD>,"password-confirm":<PASSWORD CONFIRMATION>}' \
+  -H 'Content-Type: application/json' \
+  http://localhost:3001/create-account
 ```
 
 Login (Get JWT token for authorized requests):
 ```bash
 curl \
--d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' \
--H 'Content-Type: application/json' \
-http://localhost:3001/login
+  -d '{"login":<EMAIL ADDRESS>,"password":<PASSWORD>}' \
+  -H 'Content-Type: application/json' \
+  http://localhost:3001/login
 ```
 
 Create new community:
 ```bash
 curl \
--d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' \
--H 'Content-Type: application/json' \
--H 'Authorization: <JWT Token>' \
-http://localhost:3001/api/v1/communities,
+  -d '{"community": { "sub_dir":"META","title":"META Investors Club","description":"Place to discuss all things Meta stock" } }' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: <JWT Token>' \
+  http://localhost:3001/api/v1/communities,
 ```
 
 Create new text post for community:
 ```bash
 curl \
--d '{"post": { "title":"Worried about the impact of apple privacy changes","body":"Anybody else worried?" } }' \
--H 'Content-Type: application/json' \
--H 'Authorization: <JWT Token>' \
-http://localhost:3001/api/v1/communities/META/text_posts,
+  -d '{"post": { "title":"Worried about the impact of apple privacy changes","body":"Anybody else worried?" } }' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: <JWT Token>' \
+  http://localhost:3001/api/v1/communities/META/text_posts,
 ```
 
 ## Database Structure
