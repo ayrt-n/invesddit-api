@@ -54,7 +54,7 @@ class Comment < ApplicationRecord
 
     notify(
       notifiable: self,
-      account: comment.account,
+      account: comment.account
     )
   end
 
@@ -66,7 +66,7 @@ class Comment < ApplicationRecord
 
     notify(
       notifiable: self,
-      account: post.account,
+      account: post.account
     )
   end
 end
