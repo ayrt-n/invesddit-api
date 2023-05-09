@@ -2,6 +2,8 @@ class Notification < ApplicationRecord
   belongs_to :account
   belongs_to :notifiable, polymorphic: true
 
+  enum category: { comment: 'comment', reply: 'reply' }
+
   scope :unread, -> { where(read: false) }
   scope :sort_by_new, -> { order(created_at: :desc) }
 

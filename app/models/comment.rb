@@ -55,7 +55,6 @@ class Comment < ApplicationRecord
     notify(
       notifiable: self,
       account: comment.account,
-      message: "u/#{account.username} replied to your comment in c/#{post.community.sub_dir}"
     )
   end
 
@@ -68,7 +67,6 @@ class Comment < ApplicationRecord
     notify(
       notifiable: self,
       account: post.account,
-      message: "u/#{account.username} replied to your post in c/#{post.community.sub_dir}"
     )
   end
 end

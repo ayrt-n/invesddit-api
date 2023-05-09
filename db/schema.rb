@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_145754) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_09_105238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_145754) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "comments_status", ["published", "deleted"]
+  create_enum "notification_category", ["comment", "reply"]
   create_enum "posts_status", ["published", "deleted"]
 
   create_table "account_login_change_keys", force: :cascade do |t|
@@ -122,10 +123,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_145754) do
     t.bigint "account_id", null: false
     t.string "notifiable_type"
     t.bigint "notifiable_id"
-    t.string "message"
     t.boolean "read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "category", enum_type: "notification_category"
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
   end
