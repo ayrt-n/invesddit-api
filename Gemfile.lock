@@ -123,6 +123,10 @@ GEM
       activerecord (>= 4.0.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    graphiql-rails (1.7.0)
+      railties
+      sprockets-rails
+    graphql (1.11.6)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -317,6 +321,8 @@ DEPENDENCIES
   faker
   figaro
   friendly_id (~> 5.4.0)
+  graphiql-rails
+  graphql
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
