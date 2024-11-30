@@ -14,6 +14,7 @@ class Account < ApplicationRecord
   has_many :communities, through: :memberships
   has_many :votes
   has_many :notifications
+  has_many :posts
 
   has_one_attached :avatar, dependent: :destroy
   has_one_attached :banner, dependent: :destroy
