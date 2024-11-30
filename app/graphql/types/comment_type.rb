@@ -1,27 +1,24 @@
 module Types
-  class PostType < Types::BaseObject
+  class CommentType < Types::BaseObject
     # Scalar fields
     field :id, ID, null: false
-    field :title, String, null: false
     field :body, String, null: true
     field :account_id, Integer, null: false
-    field :community_id, Integer, null: false
+    field :post_id, Integer, null: false
+    field :reply_id, Integer, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :comments_count, Integer, null: false
     field :cached_score, Integer, null: false
     field :cached_hot_rank, Float, null: true
     field :cached_upvotes, Integer, null: true
     field :cached_downvotes, Integer, null: true
     field :cached_confidence_score, Float, null: true
-    field :type, String, null: false
 
     # Enum fields
-    field :status, Types::StatusEnumType, null: false
+    field :status, Types::StatusEnumType, null: true
 
     # Association fields
     field :account, Types::AccountType, null: false
-    field :community, Types::CommunityType, null: false
-    field :comments, [Types::CommentType], null: false, method: :top_level_comments
+    field :replies, [Types::CommentType], null: false
   end
 end

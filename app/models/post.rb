@@ -52,4 +52,9 @@ class Post < ApplicationRecord
   def content
     deleted? ? nil : body
   end
+
+  # Return top-level comments only
+  def top_level_comments
+    comments.where(reply_id: nil)
+  end
 end
