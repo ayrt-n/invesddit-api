@@ -18,4 +18,20 @@ RSpec.describe Account, type: :model do
       expect(Membership.where(account:, community:)).to exist
     end
   end
+
+  context '#author_of?' do
+    it 'returns true if the account authored the post' do
+      account = create(:account)
+      post = create(:post, account:)
+
+      expect(account.author_of?(post)).to be_truthy
+    end
+
+    it 'returns false if the account authored the post' do
+      account = create(:account)
+      post = create(:post)
+
+      expect(account.author_of?(post)).to be_falsey
+    end
+  end
 end

@@ -60,4 +60,9 @@ class Account < ApplicationRecord
       false
     end
   end
+
+  # Check if the account is the author of object (i.e., does this belong to account)
+  def author_of?(authorable)
+    authorable.account_id == id
+  end
 end
