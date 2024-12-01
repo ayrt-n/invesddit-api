@@ -104,4 +104,4 @@ gem 'active_storage_validations'
 
 # GraphQL
 gem 'graphql'
-gem 'graphiql-rails', group: :development
+gem 'graphiql-rails', '~> 1.8', group: :development
