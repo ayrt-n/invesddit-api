@@ -8,10 +8,9 @@ module Mutations
 
     def resolve(community_id:, attributes:)
       community = Community.friendly.find(community_id)
-      account = Account.first
       post = Post.new(
         community_id: community.id,
-        account_id: account.id,
+        account_id: context[:current_account]&.id,
         type: 'TextPost',
         **attributes.to_h
       )
@@ -21,7 +20,7 @@ module Mutations
       else
         user_errors = post.errors.map do |error|
           path = ['attributes', error.attribute.to_s.camelize(:lower)]
-          { path:, message: error.message }
+          { path:, message: error.full_message }
         end
 
         { post: nil, errors: user_errors }
