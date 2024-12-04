@@ -3,7 +3,7 @@ module Types
     # Scalar fields
     field :id, ID, null: false, description: 'The id of the post'
     field :title, String, null: false, description: 'The title of the post'
-    field :body, String, null: true, description: 'The body of the post'
+    field :content, String, null: true, description: 'The post content (text, image url, link)'
     field :account_id, Integer, null: false, description: 'The account id of the author of the post'
     field :community_id, Integer, null: false, description: 'The community id of the community the post belongs to'
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false, description: 'The datetime the post was created'
