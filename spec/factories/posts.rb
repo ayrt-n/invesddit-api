@@ -13,5 +13,9 @@ FactoryBot.define do
 
     # Make text post by default
     type { 'TextPost' }
+
+    factory :deleted_post do
+      status { 'deleted' }
+    end
   end
 end
