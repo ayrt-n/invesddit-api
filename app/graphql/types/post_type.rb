@@ -21,7 +21,7 @@ module Types
     field :status, Types::StatusEnumType, null: false, description: 'The status of the post (PUBLISHED or DELETED)'
 
     # Association fields
-    field :account, Types::AccountType, null: false, description: 'The author of the post'
+    field :author, Types::AccountType, null: true, description: 'The author of the post or nil if deleted'
     field :community, Types::CommunityType, null: false, description: 'The community the post belongs to'
     field :comments, [Types::CommentType], null: false, method: :top_level_comments,
                                            description: 'Top-level comments on the post'
