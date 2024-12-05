@@ -28,8 +28,6 @@ RSpec.describe 'deletePost mutation', type: :request do
       variables: { postId: post.id }
     )
 
-    p mutation_results
-
     post.reload
     expect(post.status).to eq('deleted')
     expect(mutation_results['data']['deletePost']['errors']).to be_empty
