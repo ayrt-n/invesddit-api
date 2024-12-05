@@ -9,8 +9,6 @@ RSpec.describe 'createTextPost mutation', type: :request do
         createTextPost(input: { communityId: $communityId, attributes: $attributes }) {
           post {
             id
-            title
-            body
           }
           errors {
             path
