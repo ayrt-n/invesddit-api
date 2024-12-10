@@ -27,7 +27,7 @@ RSpec.describe '/GET posts', type: :request do
   end
 
   context 'when logged in' do
-    before do
+    before(:each) do
       @c1 = create(:community)
       c2 = create(:community)
       c3 = create(:community)

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
   context 'members counter cache' do
-    before do
+    before(:each) do
       @account = create(:account)
       @community = create(:community)
     end
