@@ -14,7 +14,7 @@ RSpec.describe 'querying post feed' do
     GRAPHQL
   end
 
-  before(:all) do
+  before(:each) do
     # Create account, communities, and posts
     @account = create(:account)
     @community1 = create(:community)
@@ -43,7 +43,6 @@ RSpec.describe 'querying post feed' do
       post_ids = results.to_h['data']['posts'].map { |post| post['community']['id'].to_i }
 
       expect(post_ids).to all(be_in([@community1.id, @community2.id]))
-      expect(post_ids).not_to include(@community3.id)
     end
 
     it 'returns all posts when filter set to all' do
