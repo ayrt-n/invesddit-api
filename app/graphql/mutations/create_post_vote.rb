@@ -17,7 +17,7 @@ module Mutations
     def authorized?(**kwargs)
       super && (return true if context[:current_account])
 
-      [false, { vote: nil, errors: [{ path: %w[attributes account], message: 'Must be logged in to vote' }] }]
+      [false, { vote: nil, errors: [{ path: %w[attributes account], message: 'Must be logged in' }] }]
     end
   end
 end
